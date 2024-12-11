@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo"
+    tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/peralta"
+        android:text="@string/bookscape"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/descricao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/peralta"
+        android:text="@string/the_online_library"
+        android:textAlignment="center"
+        android:textColor="@color/lighter_blue"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/lighter_blue"
+        android:ems="10"
+        android:fontFamily="@font/alata"
+        android:hint="@string/search_for"
+        android:inputType="text"
+        android:padding="10dp"
+        android:shadowColor="@color/dark_blue"
+        android:textAlignment="textStart"
+        android:textColor="@color/dark_blue"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/search"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:background="@color/petroleum_blue"
+        android:padding="10dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/edit_text"
+        app:layout_constraintEnd_toEndOf="@id/edit_text"
+        app:layout_constraintTop_toTopOf="@id/edit_text" />
+
+    <Button
+        android:id="@+id/btn_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/petroleum_blue"
+        android:fontFamily="@font/peralta"
+        android:text="@string/my_booklist"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text" />
+
+    <Button
+        android:id="@+id/btn_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/petroleum_blue"
+        android:fontFamily="@font/peralta"
+        android:text="@string/my_account"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/rodape"
+        app:layout_constraintEnd_toEndOf="@id/btn_favorites"
+        app:layout_constraintStart_toStartOf="@id/btn_favorites"
+        app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
+
+    <TextView
+        android:id="@+id/rodape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:fontFamily="@font/alata"
+        android:text="@string/all_rights_reserved"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_account" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

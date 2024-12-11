@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">BookScape</string>
+    <string name="salvar">Salvar</string>
+    <string name="autor_do_livro">Autor do livro</string>
+    <string name="titulo_do_livro">Titulo do livro</string>
+    <string name="voltar">Voltar</string>
+    <string name="booklist">BookList</string>
+    <string name="sair">Sair</string>
+    <string name="e_mail">E-mail:</string>
+    <string name="nome_de_usuario">Nome de usuario:</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="possui_conta">Já possui uma conta? Faça login</string>
+    <string name="senha">Senha:</string>
+    <string name="the_online_library">The online library</string>
+    <string name="search_for">Search for a book or author:</string>
+    <string name="my_booklist">My BookList</string>
+    <string name="my_account">My Account</string>
+    <string name="all_rights_reserved">All rights reserved</string>
+    <string name="bookscape">BookScape</string>
+</resources>
