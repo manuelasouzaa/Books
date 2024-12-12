@@ -1,11 +1,11 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projeto.contextExpresions.bookId
 import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.SearchActivityBinding
@@ -29,12 +29,15 @@ class SearchActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val email = user.value?.email.toString()
-
-        Log.i("User", "onCreate: ${user.value.toString()}")
-        Log.i("teste", "onCreate: $email")
+        val email = intent.getStringExtra(userEmail)
 
         val bookList: List<Book>? = intent.getSerializableExtra("booklist") as List<Book>?
+
+        binding.btnReturn.setOnClickListener {
+            goTo(MainActivity::class.java) {
+                loggedUser
+            }
+        }
 
         when {
             bookList.isNullOrEmpty() -> {
@@ -42,7 +45,7 @@ class SearchActivity : UserActivity() {
             }
             bookList.isNotEmpty() -> {
                 lifecycleScope.launch(IO) {
-                    recyclerViewConfig(email)
+                    recyclerViewConfig(email.toString())
                     adapter.update(bookList)
                 }
             }
@@ -57,8 +60,8 @@ class SearchActivity : UserActivity() {
             lifecycleScope.launch(Main) {
                 goTo(BookDetailsActivity::class.java) {
                     putExtra(userEmail, email)
-                    Log.i("it worked", "recyclerViewConfig: $email")
                     putExtra(bookId, book)
+                    loggedUser
                 }
             }
         }

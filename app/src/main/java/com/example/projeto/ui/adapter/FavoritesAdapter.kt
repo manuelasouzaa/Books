@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.databinding.FavoriteItemBinding
+import com.example.projeto.databinding.SearchItemBinding
 import com.example.projeto.model.SavedBook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -19,8 +19,8 @@ class FavoritesAdapter(
 
     private val books = livros.toMutableList()
 
-    class ViewHolder (
-        private val binding: FavoriteItemBinding,
+    class ViewHolder(
+        private val binding: SearchItemBinding,
         var whenItemIsClicked: (book: SavedBook) -> Unit,
     ): RecyclerView.ViewHolder(binding.root) {
 
@@ -58,7 +58,7 @@ class FavoritesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            FavoriteItemBinding.inflate(
+            SearchItemBinding.inflate(
                 LayoutInflater.from(context), parent, false
             ),
             whenItemIsClicked
@@ -75,4 +75,12 @@ class FavoritesAdapter(
     }
 
     override fun getItemCount(): Int = books.size
+
+    fun update(savedBooks: List<SavedBook>) {
+        val context = this@FavoritesAdapter
+        notifyItemRangeRemoved(0, context.books.size)
+        context.books.clear()
+        context.books.addAll(savedBooks)
+        notifyItemInserted(context.books.size)
+    }
 }

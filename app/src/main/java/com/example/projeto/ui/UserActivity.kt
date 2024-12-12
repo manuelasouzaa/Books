@@ -1,5 +1,6 @@
 package com.example.projeto.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
@@ -38,8 +39,15 @@ abstract class UserActivity : AppCompatActivity() {
         dataStore.data.first().let { preferences ->
             preferences[loggedUser]?.let { email ->
                 fetchUser(email)
-            } ?: goTo(LoginActivity::class.java)
+            } ?: goToLogin()
         }
+    }
+
+    protected fun goToLogin() {
+        goTo(LoginActivity::class.java) {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        finish()
     }
 
     protected suspend fun fetchUser(email: String): User? {
@@ -51,7 +59,6 @@ abstract class UserActivity : AppCompatActivity() {
     protected suspend fun removeUser() {
         dataStore.edit {
             it.remove(loggedUser)
-            goTo(LoginActivity::class.java)
         }
     }
 }

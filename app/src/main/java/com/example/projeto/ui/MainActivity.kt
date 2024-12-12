@@ -1,6 +1,5 @@
 package com.example.projeto.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +14,7 @@ import com.example.projeto.model.Book
 import com.example.projeto.web.Retrofit
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.Serializable
@@ -41,15 +41,20 @@ class MainActivity : UserActivity() {
         }
 
         binding.btnFavorites.setOnClickListener {
-            goTo(FavoritesActivity::class.java) {
-                loggedUser
+            lifecycleScope.launch(IO) {
+                user.filterNotNull().collect {
+                    val email = user.value?.email.toString()
+                    goTo(FavoritesActivity::class.java) {
+                        putExtra(userEmail, email)
+                        loggedUser
+                    }
+                }
             }
         }
 
-        val email = user.value?.email
 
         Log.i("preferences", "onCreate: $loggedUser")
-        Log.i("email usuario", "onCreate: $email")
+        Log.i("usuario", "onCreate: ${user.value?.toString()}")
 
         binding.search.setOnClickListener {
             lifecycleScope.launch(IO) {
@@ -93,11 +98,18 @@ class MainActivity : UserActivity() {
     }
 
     private fun sendList(booklist: List<Book?>) {
-        val intent = Intent(this, SearchActivity::class.java)
-        intent.apply {
-            putExtra("booklist", booklist as Serializable)
-            putExtra(userEmail, loggedUser.toString())
-            startActivity(intent)
+        lifecycleScope.launch(IO) {
+            user.filterNotNull().collect {
+                val email = user.value?.email.toString()
+                Log.i("email usuario", "onCreate: $email")
+
+                withContext(Main) {
+                    goTo(SearchActivity::class.java) {
+                        putExtra("booklist", booklist as Serializable)
+                        putExtra(userEmail, email)
+                    }
+                }
+            }
         }
     }
 }

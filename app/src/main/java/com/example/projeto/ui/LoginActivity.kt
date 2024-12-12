@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.contextExpresions.dataStore
+import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.toast
+import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.LoginActivityBinding
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -35,14 +35,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun btnEnterConfig() {
         binding.btnEnter.setOnClickListener {
             val email = binding.email.text.toString()
             val password = binding.password.text.toString()
             autenticate(email, password)
-
         }
     }
 

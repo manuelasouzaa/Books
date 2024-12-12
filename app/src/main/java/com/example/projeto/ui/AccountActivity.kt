@@ -1,6 +1,7 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loggedUser
@@ -29,6 +30,7 @@ class AccountActivity : UserActivity() {
         binding.btnLogout.setOnClickListener {
             lifecycleScope.launch(IO) {
                 removeUser()
+                goToLogin()
             }
         }
 

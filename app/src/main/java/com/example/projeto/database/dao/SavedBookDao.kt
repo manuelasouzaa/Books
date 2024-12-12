@@ -12,5 +12,8 @@ interface SavedBookDao {
     fun saveBook(book: SavedBook)
 
     @Query ("SELECT * FROM SavedBook WHERE userEmail = :userEmail")
-    fun showSavedBooks(userEmail: String): List<SavedBook>
+    fun showSavedBooks(userEmail: String): List<SavedBook>?
+
+    @Query ("SELECT * FROM SavedBook WHERE idBook = :idBook AND userEmail = :userEmail")
+    fun searchSavedBook(idBook: String, userEmail: String): SavedBook?
 }

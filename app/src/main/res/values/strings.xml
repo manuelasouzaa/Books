@@ -18,4 +18,7 @@
     <string name="my_account">My Account</string>
     <string name="all_rights_reserved">All rights reserved</string>
     <string name="bookscape">BookScape</string>
+    <string name="nenhum_livro_adicionado">Nenhum livro adicionado</string>
+    <string name="minha_booklist">Minha BookList</string>
+    <string name="livros_encontrados">Livros Encontrados</string>
 </resources>
