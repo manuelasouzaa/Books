@@ -30,8 +30,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         btnEnterConfig()
+
         binding.link.setOnClickListener {
             goTo(CadastroActivity::class.java)
+            finish()
         }
     }
 
@@ -57,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 finish()
 
             } ?: run {
-                withContext(Main.immediate) {
+                withContext(Main) {
                     toast("Usuário não encontrado. Faça o cadastro")
                 }
             }

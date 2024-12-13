@@ -3,7 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lighter_blue">
+    android:background="@color/petroleum_blue">
+
+    <ImageButton
+        android:id="@+id/btn_voltar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitXY"
+        android:padding="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_return"
+        android:backgroundTint="@color/petroleum_blue"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,11 +24,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <androidx.cardview.widget.CardView
             android:id="@+id/frame"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:backgroundTint="@color/dark_blue"
+            android:backgroundTint="@color/lighter_blue"
             android:elevation="10dp"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="@id/nome_usuario"
@@ -48,7 +62,7 @@
             android:layout_margin="20dp"
             android:text="@string/app_name"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +75,7 @@
             android:layout_margin="20dp"
             android:text="@string/app_name"
             android:textAlignment="center"
-            android:textColor="@color/dark_blue"
+            android:textColor="@color/lighter_blue"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@id/nome_usuario"
             app:layout_constraintStart_toStartOf="@id/nome_usuario"
@@ -71,8 +85,9 @@
             android:id="@+id/btn_favorites"
             android:layout_width="140dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/petroleum_blue"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/lighter_blue"
             android:elevation="10dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@id/btn_logout"
@@ -90,8 +105,9 @@
                     android:backgroundTint="@color/lighter_blue"
                     android:text="@string/booklist"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/peralta"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,33 +117,20 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/btn_voltar"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/dark_blue"
-            android:text="@string/voltar"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
-
-        <Button
             android:id="@+id/btn_logout"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/dark_blue"
+            android:backgroundTint="@color/light_blue"
             android:text="@string/sair"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
+            android:fontFamily="@font/peralta"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_voltar" />
+            app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

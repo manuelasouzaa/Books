@@ -1,22 +1,15 @@
 package com.example.projeto.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loadImage
 import com.example.projeto.databinding.SearchItemBinding
 import com.example.projeto.model.Book
-import com.example.projeto.ui.BookDetailsActivity
-import com.example.projeto.ui.SearchActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchAdapter(
     private val context: Context,
@@ -35,32 +28,28 @@ class SearchAdapter(
 
         init {
             itemView.setOnClickListener {
-                if (::book.isInitialized) {
+                if (::book.isInitialized)
                     whenItemIsClicked(book)
-                }
             }
         }
 
         fun vincula(book: Book) {
             CoroutineScope(IO).launch {
                 this@ViewHolder.book = book
-                val title = binding.title
-                title.text = book.title
+                binding.title.text = book.title
+                binding.image.loadImage(book.image)
+
                 val author = binding.writer
                 when {
-                    book.author == "null" -> {
+                    book.author == "null" ->
                         author.text = ""
-                    }
-                    book.author.isEmpty() -> {
+
+                    book.author.isEmpty() ->
                         author.text = ""
-                    }
-                    book.author.isNotBlank() -> {
+
+                    book.author.isNotBlank() ->
                         author.text = book.author
-                    }
                 }
-                val image = binding.image
-                val imageUrl = book.image
-                image.loadImage(imageUrl)
             }
         }
     }
@@ -77,9 +66,8 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val book: Book? = books[position]
         book?.let {
-            if (book.title.isNotBlank()) {
+            if (book.title.isNotBlank())
                 holder.vincula(it)
-            }
         }
     }
 

@@ -15,43 +15,39 @@ class FavoritesAdapter(
     private val context: Context,
     livros: List<SavedBook?> = emptyList(),
     var whenItemIsClicked: (book: SavedBook) -> Unit = {}
-): RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     private val books = livros.toMutableList()
 
     class ViewHolder(
         private val binding: SearchItemBinding,
         var whenItemIsClicked: (book: SavedBook) -> Unit,
-    ): RecyclerView.ViewHolder(binding.root) {
-
-        fun vincula(savedBook: SavedBook) {
-            CoroutineScope(IO).launch {
-                this@ViewHolder.book = savedBook
-
-                binding.title.text = savedBook.title
-                binding.image.loadImage(savedBook.image)
-                val author = binding.writer
-                when {
-                    book.author == "null" -> {
-                        author.text = ""
-                    }
-                    book.author?.isEmpty() == true -> {
-                        author.text = ""
-                    }
-                    book.author?.isNotBlank() == true -> {
-                        author.text = book.author
-                    }
-                }
-            }
-        }
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var book: SavedBook
 
         init {
             itemView.setOnClickListener {
-                if (::book.isInitialized) {
+                if (::book.isInitialized)
                     whenItemIsClicked(book)
-                }
+            }
+        }
+
+        fun vincula(savedBook: SavedBook) {
+            this@ViewHolder.book = savedBook
+
+            binding.title.text = savedBook.title
+            binding.image.loadImage(savedBook.image)
+            val author = binding.writer
+            when {
+                book.author == "null" ->
+                    author.text = ""
+
+                book.author?.isEmpty() == true ->
+                    author.text = ""
+
+                book.author?.isNotBlank() == true ->
+                    author.text = book.author
             }
         }
     }
@@ -68,9 +64,8 @@ class FavoritesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val book: SavedBook? = books[position]
         book?.let {
-            if (book.title.isNotBlank()) {
+            if (book.title.isNotBlank())
                 holder.vincula(it)
-            }
         }
     }
 

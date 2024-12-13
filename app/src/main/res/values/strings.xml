@@ -21,4 +21,7 @@
     <string name="nenhum_livro_adicionado">Nenhum livro adicionado</string>
     <string name="minha_booklist">Minha BookList</string>
     <string name="livros_encontrados">Livros Encontrados</string>
+    <string name="n_o_possui_uma_conta_cadastre_se">Não possui uma conta? Cadastre-se</string>
+    <string name="entrar">Entrar</string>
+    <string name="login">Login</string>
 </resources>

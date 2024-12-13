@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,21 +6,22 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark_blue">
 
         <ImageButton
             android:id="@+id/btn_return"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="30dp"
             android:backgroundTint="@color/dark_blue"
             android:padding="0dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_return_light"
+            android:src="@drawable/ic_return"
             app:layout_constraintBottom_toTopOf="@id/recycler"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,14 +36,13 @@
             android:text="@string/livros_encontrados"
             android:textColor="@color/lighter_blue"
             android:fontFamily="@font/peralta"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textAlignment="center"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_return"

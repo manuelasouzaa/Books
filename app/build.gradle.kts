@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.coil)
 
+    implementation (libs.androidx.core.splashscreen)
 }

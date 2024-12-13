@@ -35,38 +35,43 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         binding.btnAccount.setOnClickListener {
-            goTo(AccountActivity::class.java) {
-                loggedUser
-            }
+            goToActivity(AccountActivity::class.java)
+            finish()
         }
 
         binding.btnFavorites.setOnClickListener {
-            lifecycleScope.launch(IO) {
-                user.filterNotNull().collect {
-                    val email = user.value?.email.toString()
-                    goTo(FavoritesActivity::class.java) {
-                        putExtra(userEmail, email)
-                        loggedUser
+            goToActivity(FavoritesActivity::class.java)
+        }
+
+        binding.search.setOnClickListener {
+            search()
+        }
+    }
+
+    private fun search() {
+        lifecycleScope.launch(IO) {
+            launch {
+                try {
+                    val list = service.searchBooks(binding.editText.text.toString())
+                    search(list)
+                } catch (e: Exception) {
+                    Log.e("erro", "pesquisa não realizada", e)
+                    withContext(Main) {
+                        toast("Pesquisa não realizada")
                     }
                 }
             }
         }
+    }
 
-
-        Log.i("preferences", "onCreate: $loggedUser")
-        Log.i("usuario", "onCreate: ${user.value?.toString()}")
-
-        binding.search.setOnClickListener {
-            lifecycleScope.launch(IO) {
-                launch {
-                    try {
-                        val list = service.searchBooks(binding.editText.text.toString())
-                        search(list)
-                    } catch (e: Exception) {
-                        Log.e("erro", "pesquisa não realizada", e)
-                        withContext(Main) {
-                            toast("Livro não encontrado")
-                        }
+    private fun goToActivity(activity: Class<*>) {
+        lifecycleScope.launch(IO) {
+            user.filterNotNull().collect {
+                val email = user.value?.email.toString()
+                withContext(Main){
+                    goTo(activity) {
+                        putExtra(userEmail, email)
+                        loggedUser
                     }
                 }
             }
@@ -76,8 +81,6 @@ class MainActivity : UserActivity() {
     private fun search(list: GoogleApiAnswer) {
         lifecycleScope.launch(Main) {
             val booklist: List<Book?> = getList(list)
-            Log.i("listaLivros", "search: $booklist")
-
             sendList(booklist)
         }
     }
@@ -101,13 +104,13 @@ class MainActivity : UserActivity() {
         lifecycleScope.launch(IO) {
             user.filterNotNull().collect {
                 val email = user.value?.email.toString()
-                Log.i("email usuario", "onCreate: $email")
 
                 withContext(Main) {
                     goTo(SearchActivity::class.java) {
                         putExtra("booklist", booklist as Serializable)
                         putExtra(userEmail, email)
                     }
+                    finish()
                 }
             }
         }

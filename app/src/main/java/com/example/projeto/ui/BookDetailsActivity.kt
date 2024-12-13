@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.bookId
-import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.database.LibraryDatabase
@@ -32,9 +30,12 @@ class BookDetailsActivity : UserActivity() {
 
         val email: String = intent.getStringExtra(userEmail).toString()
         val book: Book = intent.getParcelableExtra<Book>(bookId) as Book
+
         lifecycleScope.launch(IO) {
             val existentBook: SavedBook? = dao.searchSavedBook(book.id, email)
-            bookDetailsConfig(binding, book, existentBook)
+            withContext(Main) {
+                bookDetailsConfig(binding, book, existentBook)
+            }
         }
 
         binding.btnReturn.setOnClickListener {
@@ -52,35 +53,33 @@ class BookDetailsActivity : UserActivity() {
                 title = book.title
             )
 
-        val btnSave = binding.btnSave
+        val btnSave = binding.btnAdd
         btnSave.setOnClickListener {
             lifecycleScope.launch(IO) {
-                if (bookToSave.userEmail == "null") {
+                if (bookToSave.userEmail == "null")
                     withContext(Main) {
                         toast("Não foi possível salvar o livro")
                     }
-                }
 
                 if (bookToSave.userEmail != "null") {
-
-                    val existentBook: SavedBook? = dao.searchSavedBook(book.id, email)
+                    val existentBook = dao.searchSavedBook(book.id, email)
                     when {
-
                         existentBook == null -> {
                             dao.saveBook(bookToSave)
                             withContext(Main) {
                                 toast("Adicionado à BookList!")
-                                binding.btnSave.setImageResource(R.drawable.ic_bookmark_added)
+                                binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
                             }
                         }
 
-                        true -> {
+                        true ->
                             withContext(Main) {
                                 toast("Este livro já foi adicionado")
                             }
-                        }
+
                     }
                 }
+
             }
         }
     }
@@ -95,9 +94,8 @@ class BookDetailsActivity : UserActivity() {
         binding.bookImage.loadImage(book.image)
         binding.bookAuthor.text = book.author
 
-        if (existentBook !== null) {
-            binding.btnSave.setImageResource(R.drawable.ic_bookmark_added)
-        }
+        if (existentBook !== null)
+            binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
     }
 }
 

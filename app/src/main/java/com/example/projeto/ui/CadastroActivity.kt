@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
-class CadastroActivity: AppCompatActivity() {
+class CadastroActivity : AppCompatActivity() {
 
     private val binding by lazy {
         CadastroActivityBinding.inflate(layoutInflater)
@@ -29,13 +29,14 @@ class CadastroActivity: AppCompatActivity() {
         val btn = binding.btnEnter
 
         btn.setOnClickListener {
-            lifecycleScope.launch(IO){
+            lifecycleScope.launch(IO) {
                 createUser()
             }
         }
 
         binding.link.setOnClickListener {
             goTo(LoginActivity::class.java)
+            finish()
         }
     }
 
@@ -50,24 +51,21 @@ class CadastroActivity: AppCompatActivity() {
             password = password
         )
 
-        if (email == "" || password == "") {
+        if (email == "" || password == "")
             lifecycleScope.launch(Main) {
-                launch {
-                    toast("Preencha todos os campos")
-                }
+                toast("Preencha todos os campos")
             }
-        }
 
         dao.salva(newUser)
-        lifecycleScope.launch(Main) {
-            launch {
-                toast("Cadastro realizado com sucesso!")
-            }
-        }
-        goTo(LoginActivity::class.java) {
-            newUser
-        }
 
+        lifecycleScope.launch(Main) {
+            toast("Cadastro realizado com sucesso!")
+            goTo(LoginActivity::class.java) {
+                newUser
+            }
+            finish()
+
+        }
         return newUser
     }
 }

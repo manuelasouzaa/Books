@@ -1,6 +1,7 @@
 package com.example.projeto.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.projeto.model.SavedBook
@@ -16,4 +17,8 @@ interface SavedBookDao {
 
     @Query ("SELECT * FROM SavedBook WHERE idBook = :idBook AND userEmail = :userEmail")
     fun searchSavedBook(idBook: String, userEmail: String): SavedBook?
+
+    @Delete
+    fun deleteSavedBook(savedBook: SavedBook)
+
 }

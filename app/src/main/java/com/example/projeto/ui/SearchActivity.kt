@@ -12,7 +12,6 @@ import com.example.projeto.databinding.SearchActivityBinding
 import com.example.projeto.model.Book
 import com.example.projeto.ui.adapter.SearchAdapter
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
 class SearchActivity : UserActivity() {
@@ -40,15 +39,15 @@ class SearchActivity : UserActivity() {
         }
 
         when {
-            bookList.isNullOrEmpty() -> {
+            bookList.isNullOrEmpty() ->
                 toast("Livro não encontrado")
-            }
-            bookList.isNotEmpty() -> {
+
+            bookList.isNotEmpty() ->
                 lifecycleScope.launch(IO) {
                     recyclerViewConfig(email.toString())
                     adapter.update(bookList)
                 }
-            }
+
         }
     }
 
@@ -57,12 +56,10 @@ class SearchActivity : UserActivity() {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
         adapter.whenItemIsClicked = { book ->
-            lifecycleScope.launch(Main) {
-                goTo(BookDetailsActivity::class.java) {
-                    putExtra(userEmail, email)
-                    putExtra(bookId, book)
-                    loggedUser
-                }
+            goTo(BookDetailsActivity::class.java) {
+                putExtra(userEmail, email)
+                putExtra(bookId, book)
+                loggedUser
             }
         }
     }
