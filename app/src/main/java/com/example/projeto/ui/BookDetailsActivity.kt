@@ -4,11 +4,14 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.bookId
+import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loadImage
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.BookDetailsBinding
+import com.example.projeto.databinding.SavedBookPopupBinding
 import com.example.projeto.model.Book
 import com.example.projeto.model.SavedBook
 import kotlinx.coroutines.Dispatchers.IO
@@ -67,8 +70,9 @@ class BookDetailsActivity : UserActivity() {
                         existentBook == null -> {
                             dao.saveBook(bookToSave)
                             withContext(Main) {
-                                toast("Adicionado à BookList!")
                                 binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+                                toast("Adicionado à BookList!")
+//                                openPopup(email)
                             }
                         }
 
@@ -79,8 +83,22 @@ class BookDetailsActivity : UserActivity() {
 
                     }
                 }
-
             }
+        }
+    }
+
+    private fun openPopup(email: String) {
+        val popup = SavedBookPopupBinding.inflate(layoutInflater)
+        setContentView(popup.root)
+        popup.btnVoltar.setOnClickListener {
+            finish()
+        }
+        popup.btnBooklist.setOnClickListener {
+            goTo(FavoritesActivity::class.java) {
+                putExtra(userEmail, email)
+                loggedUser
+            }
+            finish()
         }
     }
 
@@ -92,7 +110,16 @@ class BookDetailsActivity : UserActivity() {
         binding.bookTitle.text = book.title
         binding.bookDesc.text = book.description
         binding.bookImage.loadImage(book.image)
-        binding.bookAuthor.text = book.author
+
+        when {
+            book.author == "null" -> {
+                binding.bookAuthor.text = ""
+            }
+            book.author !== "null" -> {
+                binding.bookAuthor.text = book.author.toString()
+            }
+        }
+
 
         if (existentBook !== null)
             binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)

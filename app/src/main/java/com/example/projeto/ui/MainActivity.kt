@@ -2,6 +2,8 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loggedUser
@@ -20,12 +22,21 @@ class MainActivity : UserActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val viewModel = MainActivityViewModel()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        val viewModel: MainActivityViewModel by viewModels()
+
+        binding.search.setOnClickListener {
+            val search = binding.editText.text.toString()
+            lifecycleScope.launch(IO) {
+                launch {
+                    viewModel.searchApi(search, this@MainActivity, user)
+                }
+            }
+        }
 
         binding.btnAccount.setOnClickListener {
             goToActivity(AccountActivity::class.java)
@@ -36,14 +47,6 @@ class MainActivity : UserActivity() {
             goToActivity(FavoritesActivity::class.java)
         }
 
-        binding.search.setOnClickListener {
-            val search = binding.editText.text.toString()
-            lifecycleScope.launch(IO) {
-                launch {
-                    viewModel.searchApi(search, this@MainActivity, user)
-                }
-            }
-        }
     }
 
     private fun goToActivity(activity: Class<*>) {

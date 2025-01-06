@@ -9,6 +9,7 @@ import com.example.projeto.databinding.SearchItemBinding
 import com.example.projeto.model.Book
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
 class SearchAdapter(
@@ -34,7 +35,7 @@ class SearchAdapter(
         }
 
         fun vincula(book: Book) {
-            CoroutineScope(IO).launch {
+            CoroutineScope(Main).launch {
                 this@ViewHolder.book = book
                 binding.title.text = book.title
                 binding.image.loadImage(book.image)

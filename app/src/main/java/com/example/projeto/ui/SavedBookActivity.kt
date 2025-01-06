@@ -38,9 +38,17 @@ class SavedBookActivity: UserActivity() {
         }
 
         binding.bookTitle.text = favoriteBook.title
-        binding.bookAuthor.text = favoriteBook.author.toString()
         binding.bookDesc.text = favoriteBook.description.toString()
         binding.bookImage.loadImage(favoriteBook.image)
+
+        when {
+            favoriteBook.author == "null" -> {
+                binding.bookAuthor.text = ""
+            }
+            favoriteBook.author !== "null" -> {
+                binding.bookAuthor.text = favoriteBook.author.toString()
+            }
+        }
 
         binding.btnRemove.setOnClickListener {
             removeFromBooklist(favoriteBook, emailUser)
