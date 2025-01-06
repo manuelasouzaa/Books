@@ -31,7 +31,6 @@ class FavoritesActivity : UserActivity() {
     private val adapter = FavoritesAdapter(this)
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -61,7 +60,6 @@ class FavoritesActivity : UserActivity() {
                     binding.noBooks.visibility = VISIBLE
                     recycler.visibility = GONE
                 }
-
         }
     }
 
