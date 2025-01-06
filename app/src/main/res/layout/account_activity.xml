@@ -118,9 +118,9 @@
 
         <Button
             android:id="@+id/btn_logout"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_margin="13dp"
             android:backgroundTint="@color/light_blue"
             android:text="@string/sair"
             android:textAlignment="center"
@@ -128,8 +128,8 @@
             android:textSize="20sp"
             android:fontFamily="@font/peralta"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btn_favorites"
+            app:layout_constraintStart_toStartOf="@id/btn_favorites"
             app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
