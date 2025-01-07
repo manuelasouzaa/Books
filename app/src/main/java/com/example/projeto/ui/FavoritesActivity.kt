@@ -36,7 +36,6 @@ class FavoritesActivity : UserActivity() {
         setContentView(binding.root)
 
         val emailUsuario = intent.getStringExtra(usuarioEmail).toString()
-
         verificarLista(emailUsuario)
 
         binding.btnVoltar.setOnClickListener {
@@ -46,7 +45,6 @@ class FavoritesActivity : UserActivity() {
 
     override fun onResume() {
         super.onResume()
-
         val emailUsuario = intent.getStringExtra(usuarioEmail).toString()
         verificarLista(emailUsuario)
     }
@@ -55,26 +53,28 @@ class FavoritesActivity : UserActivity() {
         emailUsuario: String
     ) {
         val recycler = binding.recycler
+
         lifecycleScope.launch(IO) {
             val livrosSalvos = dao.exibirLivrosSalvos(emailUsuario)
 
-            if (livrosSalvos != null)
-                withContext(Main) {
+            withContext(Main) {
+
+                if (livrosSalvos != null) {
                     recyclerViewConfig(emailUsuario, recycler)
                     adapter.atualizar(livrosSalvos)
-
                     val quantidadeLivros = adapter.itemCount
+
                     if (quantidadeLivros == 1)
                         binding.bookQuantity.text = "1 livro adicionado"
                     if (quantidadeLivros > 1)
                         binding.bookQuantity.text = "$quantidadeLivros livros adicionados"
                 }
 
-            if (livrosSalvos.isNullOrEmpty())
-                withContext(Main) {
+                if (livrosSalvos.isNullOrEmpty())
                     binding.bookQuantity.text = "Nenhum livro adicionado"
-                    recycler.visibility = GONE
-                }
+                recycler.visibility = GONE
+
+            }
         }
     }
 
