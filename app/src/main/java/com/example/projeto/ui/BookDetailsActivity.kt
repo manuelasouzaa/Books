@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.idLivro
@@ -12,22 +13,17 @@ import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.loadImage
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioEmail
-import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.BookDetailsBinding
 import com.example.projeto.databinding.SavedBookDialogBinding
 import com.example.projeto.model.Book
 import com.example.projeto.model.SavedBook
+import com.example.projeto.viewModel.BookDetailsViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 class BookDetailsActivity : UserActivity() {
-
-    private val dao by lazy {
-        LibraryDatabase.instance(this).savedBookDao()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = BookDetailsBinding.inflate(layoutInflater)
@@ -37,62 +33,45 @@ class BookDetailsActivity : UserActivity() {
         val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
         val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
 
-        lifecycleScope.launch(IO) {
-            val livroExistente: SavedBook? = dao.buscarLivroSalvo(livro.id, emailUsuario)
-            withContext(Main) {
-                bookDetailsConfig(binding, livro, livroExistente)
-            }
-        }
+        val viewModel: BookDetailsViewModel by viewModels()
+        val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario)
+
+        bookDetailsConfig(binding, livro, livroSalvo)
 
         binding.btnVoltar.setOnClickListener {
             finish()
         }
 
-        val livroParaSalvar =
-            SavedBook(
-                image = livro.image.toString(),
-                author = livro.author,
-                idBook = livro.id,
-                description = livro.description.toString(),
-                userEmail = emailUsuario,
-                id = UUID.randomUUID().toString(),
-                title = livro.title
-            )
+        binding.btnAdd.setOnClickListener {
+            val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario)
 
-        val btnAdicionar = binding.btnAdd
-        btnAdicionar.setOnClickListener {
-            lifecycleScope.launch(IO) {
-                if (livroParaSalvar.userEmail == "null")
-                    withContext(Main) {
-                        toast("Não foi possível salvar o livro")
-                    }
+            if (livroSalvo == null) {
+                adicionarLivro(viewModel, livro, emailUsuario, binding)
+            }
 
-                if (livroParaSalvar.userEmail != "null") {
-                    val livroExistente = dao.buscarLivroSalvo(livro.id, emailUsuario)
-                    when {
-                        livroExistente == null -> {
-                            dao.salvarLivro(livroParaSalvar)
-                            withContext(Main) {
-                                binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
-//                                toast("Adicionado à BookList!")
-                                exibirCaixaDialogo(emailUsuario)
-                            }
-                        }
-
-                        true ->
-                            withContext(Main) {
-                                toast("Este livro já foi adicionado")
-                            }
-
-                    }
-                }
+            if (livroSalvo !== null) {
+                toast("Este livro já foi adicionado")
             }
         }
+    }
+
+    private fun adicionarLivro(
+        viewModel: BookDetailsViewModel,
+        livro: Book,
+        emailUsuario: String,
+        binding: BookDetailsBinding
+    ) {
+        lifecycleScope.launch(IO) {
+            viewModel.adicionarLivro(livro, emailUsuario)
+        }
+        binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+        exibirCaixaDialogo(emailUsuario)
     }
 
     private fun exibirCaixaDialogo(emailUsuario: String) {
         val dialog = Dialog(this)
         val bindingDialog = SavedBookDialogBinding.inflate(layoutInflater)
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(bindingDialog.root)
@@ -114,7 +93,6 @@ class BookDetailsActivity : UserActivity() {
             }
         }
         dialog.show()
-
     }
 
     private fun bookDetailsConfig(

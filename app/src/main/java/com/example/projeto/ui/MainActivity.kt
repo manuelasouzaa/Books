@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.databinding.ActivityMainBinding
@@ -29,24 +30,16 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         val viewModel: MainActivityViewModel by viewModels()
+        val busca = binding.editText.text.toString()
+
         binding.btnBuscar.setOnClickListener {
-            val busca = binding.editText.text.toString()
             try {
                 lifecycleScope.launch(IO) {
-                    viewModel.pesquisarLivro(
-                        busca,
-                        this@MainActivity,
-                        usuario
-                    )
+                    viewModel.pesquisarLivro(busca,this@MainActivity, usuario)
                 }
             } catch (e: Exception) {
-                Log.e("erro", "pesquisa não realizada", e)
-                Toast.makeText(
-                    this@MainActivity,
-                    "Pesquisa não realizada",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                Log.e("erro", "Erro ao pesquisar", e)
+                toast("Erro ao pesquisar")
             }
         }
 
@@ -58,7 +51,6 @@ class MainActivity : UserActivity() {
         binding.btnBooklist.setOnClickListener {
             irParaActivity(FavoritesActivity::class.java)
         }
-
     }
 
     private fun irParaActivity(activity: Class<*>) {

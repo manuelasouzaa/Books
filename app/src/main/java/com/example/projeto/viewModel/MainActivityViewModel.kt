@@ -1,10 +1,7 @@
 package com.example.projeto.viewModel
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.json.GoogleApiAnswer
@@ -26,10 +23,10 @@ class MainActivityViewModel : ViewModel() {
         Retrofit().webService
     }
 
-    suspend fun pesquisarLivro(search: String, context: Context, usuario: StateFlow<User?>) {
+    suspend fun pesquisarLivro(busca: String, context: Context, usuario: StateFlow<User?>) {
         withContext(IO) {
             launch {
-                val lista = service.buscarLivros(search)
+                val lista = service.buscarLivros(busca)
                 buscarLivro(lista, context, usuario)
             }
         }
