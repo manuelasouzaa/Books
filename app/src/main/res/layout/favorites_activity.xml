@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_return"
+            android:id="@+id/btn_voltar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="30dp"
@@ -49,10 +49,10 @@
             android:textAlignment="center"
             android:textColor="@color/lighter_blue"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_return"
+            app:layout_constraintBottom_toBottomOf="@id/btn_voltar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_return" />
+            app:layout_constraintTop_toTopOf="@id/btn_voltar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -61,7 +61,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_return"
+            app:layout_constraintTop_toBottomOf="@id/btn_voltar"
             tools:listitem="@layout/search_item" />
 
         <Space

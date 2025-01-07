@@ -82,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@id/nome_usuario" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_favorites"
+            android:id="@+id/btn_booklist"
             android:layout_width="140dp"
             android:layout_height="50dp"
             android:layout_marginBottom="10dp"
@@ -128,9 +128,9 @@
             android:textSize="20sp"
             android:fontFamily="@font/peralta"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/btn_favorites"
-            app:layout_constraintStart_toStartOf="@id/btn_favorites"
-            app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
+            app:layout_constraintEnd_toEndOf="@id/btn_booklist"
+            app:layout_constraintStart_toStartOf="@id/btn_booklist"
+            app:layout_constraintTop_toBottomOf="@id/btn_booklist" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.dataStore
-import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.LoginActivityBinding
@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         btnEnterConfig()
 
         binding.link.setOnClickListener {
-            goTo(CadastroActivity::class.java)
+            irPara(CadastroActivity::class.java)
             finish()
         }
     }
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
     private fun btnEnterConfig() {
         binding.btnEnter.setOnClickListener {
             val email = binding.email.text.toString()
-            val password = binding.password.text.toString()
+            val password = binding.senha.text.toString()
             autenticate(email, password)
         }
     }
@@ -50,11 +50,11 @@ class LoginActivity : AppCompatActivity() {
             dao.buscaUsuario(email, password)?.let { user ->
                 launch {
                     dataStore.edit { preferences ->
-                        preferences[loggedUser] = user.email
+                        preferences[usuarioLogado] = user.email
                     }
                 }
-                goTo(MainActivity::class.java) {
-                    loggedUser
+                irPara(MainActivity::class.java) {
+                    usuarioLogado
                 }
                 finish()
 

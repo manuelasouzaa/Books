@@ -2,9 +2,9 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.contextExpresions.loggedUser
-import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.databinding.AccountActivityBinding
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.filterNotNull
@@ -20,33 +20,33 @@ class AccountActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val emailUser = intent.getStringExtra(userEmail)
+        val emailUsuario = intent.getStringExtra(usuarioEmail)
 
         lifecycleScope.launch {
-            user.filterNotNull().collect {
-                binding.nomeUsuario.text = user.value?.name
-                binding.emailUsuario.text = user.value?.email
+            usuario.filterNotNull().collect {
+                binding.nomeUsuario.text = usuario.value?.name
+                binding.emailUsuario.text = usuario.value?.email
             }
         }
 
         binding.btnLogout.setOnClickListener {
             lifecycleScope.launch(IO) {
-                removeUser()
-                goToLogin()
+                removerUsuario()
+                irParaLogin()
             }
         }
 
         binding.btnVoltar.setOnClickListener {
-            goTo(MainActivity::class.java) {
-                loggedUser
+            irPara(MainActivity::class.java) {
+                usuarioLogado
             }
             finish()
         }
 
-        binding.btnFavorites.setOnClickListener {
-            goTo(FavoritesActivity::class.java) {
-                putExtra(userEmail, emailUser)
-                loggedUser
+        binding.btnBooklist.setOnClickListener {
+            irPara(FavoritesActivity::class.java) {
+                putExtra(usuarioEmail, emailUsuario)
+                usuarioLogado
             }
         }
     }

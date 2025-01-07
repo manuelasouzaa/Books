@@ -9,48 +9,45 @@ import com.example.projeto.databinding.SearchItemBinding
 import com.example.projeto.model.Book
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
 class SearchAdapter(
     private val context: Context,
     livros: List<Book?> = emptyList(),
-    var whenItemIsClicked: (book: Book) -> Unit = {}
+    var quandoClicado: (book: Book) -> Unit = {}
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-    private val books = livros.toMutableList()
+    private val livros = livros.toMutableList()
 
     class ViewHolder(
         private val binding: SearchItemBinding,
-        var whenItemIsClicked: (book: Book) -> Unit
+        var quandoClicado: (book: Book) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var book: Book
+        private lateinit var livro: Book
 
         init {
             itemView.setOnClickListener {
-                if (::book.isInitialized)
-                    whenItemIsClicked(book)
+                if (::livro.isInitialized)
+                    quandoClicado(livro)
             }
         }
 
         fun vincula(book: Book) {
-            CoroutineScope(Main).launch {
-                this@ViewHolder.book = book
-                binding.title.text = book.title
-                binding.image.loadImage(book.image)
+            this@ViewHolder.livro = book
 
-                val author = binding.writer
-                when {
-                    book.author == "null" ->
-                        author.text = ""
+            binding.title.text = book.title
+            binding.image.loadImage(book.image)
+            val autor = binding.writer
+            when {
+                book.author == "null" ->
+                    autor.text = ""
 
-                    book.author.isEmpty() ->
-                        author.text = ""
+                book.author.isNullOrEmpty() ->
+                    autor.text = ""
 
-                    book.author.isNotBlank() ->
-                        author.text = book.author
-                }
+                book.author.isNotBlank() ->
+                    autor.text = book.author
             }
         }
     }
@@ -60,27 +57,27 @@ class SearchAdapter(
             SearchItemBinding.inflate(
                 LayoutInflater.from(context), parent, false
             ),
-            whenItemIsClicked
+            quandoClicado
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val book: Book? = books[position]
-        book?.let {
-            if (book.title.isNotBlank())
+        val livro: Book? = livros[position]
+        livro?.let {
+            if (livro.title.isNotBlank())
                 holder.vincula(it)
         }
     }
 
-    override fun getItemCount(): Int = books.size
+    override fun getItemCount(): Int = livros.size
 
-    fun update(books: List<Book>) {
+    fun atualizar(livros: List<Book>) {
         CoroutineScope(IO).launch {
             val context = this@SearchAdapter
-            notifyItemRangeRemoved(0, context.books.size)
-            context.books.clear()
-            context.books.addAll(books.requireNoNulls())
-            notifyItemInserted(context.books.size)
+            notifyItemRangeRemoved(0, context.livros.size)
+            context.livros.clear()
+            context.livros.addAll(livros.requireNoNulls())
+            notifyItemInserted(context.livros.size)
         }
     }
 }

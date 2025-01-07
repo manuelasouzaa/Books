@@ -10,15 +10,15 @@ import com.example.projeto.model.SavedBook
 interface SavedBookDao {
 
     @Insert
-    fun saveBook(book: SavedBook)
+    fun salvarLivro(book: SavedBook)
 
     @Query ("SELECT * FROM SavedBook WHERE userEmail = :userEmail")
-    fun showSavedBooks(userEmail: String): List<SavedBook>?
+    fun exibirLivrosSalvos(userEmail: String): List<SavedBook>?
 
     @Query ("SELECT * FROM SavedBook WHERE idBook = :idBook AND userEmail = :userEmail")
-    fun searchSavedBook(idBook: String, userEmail: String): SavedBook?
+    fun buscarLivroSalvo(idBook: String, userEmail: String): SavedBook?
 
     @Delete
-    fun deleteSavedBook(savedBook: SavedBook)
+    fun removerLivroSalvo(savedBook: SavedBook)
 
 }

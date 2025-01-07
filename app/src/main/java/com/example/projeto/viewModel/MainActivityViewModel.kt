@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.json.GoogleApiAnswer
 import com.example.projeto.model.Book
 import com.example.projeto.model.User
@@ -25,34 +25,25 @@ class MainActivityViewModel : ViewModel() {
         Retrofit().webService
     }
 
-    suspend fun searchApi(search: String, context: Context, user: StateFlow<User?>) {
-        try {
-            val list = service.searchBooks(search)
-            withContext(IO) {
-                search(list, context, user)
-            }
-        } catch (e: Exception) {
-            Log.e("erro", "pesquisa não realizada", e)
-            withContext(Main) {
-                launch {
-                    Toast.makeText(
-                        context,
-                        "Pesquisa não realizada",
-                        Toast.LENGTH_SHORT)
-                        .show()
-                }
+    suspend fun pesquisarLivro(search: String, context: Context, usuario: StateFlow<User?>) {
+        withContext(IO) {
+            launch {
+                val lista = service.buscarLivros(search)
+                buscarLivro(lista, context, usuario)
             }
         }
     }
 
-    suspend fun search(list: GoogleApiAnswer, context: Context, user: StateFlow<User?>) {
-        withContext(Main) {
-            val booklist: List<Book?> = getList(list)
-            sendList(booklist, context, user)
-        }
+    private suspend fun buscarLivro(
+        list: GoogleApiAnswer,
+        context: Context,
+        usuario: StateFlow<User?>
+    ) {
+        val booklist: List<Book?> = obterLista(list)
+        enviarLista(booklist, context, usuario)
     }
 
-    fun getList(list: GoogleApiAnswer): List<Book?> {
+    private fun obterLista(list: GoogleApiAnswer): List<Book?> {
         return list.items.map { item ->
             item.volumeInfo?.let {
                 val book = Book(
@@ -67,15 +58,19 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-    suspend fun sendList(booklist: List<Book?>, context: Context, user: StateFlow<User?>) {
+    private suspend fun enviarLista(
+        booklist: List<Book?>,
+        context: Context,
+        usuario: StateFlow<User?>
+    ) {
         withContext(IO) {
-            user.filterNotNull().collect {
-                val email = user.value?.email.toString()
+            usuario.filterNotNull().collect {
+                val email = usuario.value?.email.toString()
 
                 withContext(Main) {
-                    context.goTo(SearchActivity::class.java) {
+                    context.irPara(SearchActivity::class.java) {
                         putExtra("booklist", booklist as Serializable)
-                        putExtra(userEmail, email)
+                        putExtra(usuarioEmail, email)
                     }
                 }
             }

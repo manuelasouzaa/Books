@@ -36,10 +36,10 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/username" />
+            app:layout_constraintBottom_toTopOf="@id/nome_usuario" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/nome_usuario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -67,7 +67,7 @@
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@id/email"
-            app:layout_constraintTop_toBottomOf="@id/username" />
+            app:layout_constraintTop_toBottomOf="@id/nome_usuario" />
 
         <EditText
             android:id="@+id/email"
@@ -98,11 +98,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/password"
+            app:layout_constraintBottom_toTopOf="@id/senha"
             app:layout_constraintTop_toBottomOf="@id/email" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/senha"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -131,7 +131,7 @@
             android:textSize="17sp"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/btn_enter"
-            app:layout_constraintTop_toBottomOf="@id/password" />
+            app:layout_constraintTop_toBottomOf="@id/senha" />
 
         <Button
             android:id="@+id/btn_enter"
@@ -147,7 +147,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password" />
+            app:layout_constraintTop_toBottomOf="@id/senha" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView

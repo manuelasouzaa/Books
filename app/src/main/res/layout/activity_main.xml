@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/search"
+        android:id="@+id/btn_buscar"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:background="@color/petroleum_blue"
@@ -70,7 +70,7 @@
         app:layout_constraintTop_toTopOf="@id/edit_text" />
 
     <Button
-        android:id="@+id/btn_favorites"
+        android:id="@+id/btn_booklist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/petroleum_blue"
@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/edit_text" />
 
     <Button
-        android:id="@+id/btn_account"
+        android:id="@+id/btn_conta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/petroleum_blue"
@@ -93,9 +93,9 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/rodape"
-        app:layout_constraintEnd_toEndOf="@id/btn_favorites"
-        app:layout_constraintStart_toStartOf="@id/btn_favorites"
-        app:layout_constraintTop_toBottomOf="@id/btn_favorites" />
+        app:layout_constraintEnd_toEndOf="@id/btn_booklist"
+        app:layout_constraintStart_toStartOf="@id/btn_booklist"
+        app:layout_constraintTop_toBottomOf="@id/btn_booklist" />
 
     <TextView
         android:id="@+id/rodape"
@@ -108,6 +108,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_account" />
+        app:layout_constraintTop_toBottomOf="@id/btn_conta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

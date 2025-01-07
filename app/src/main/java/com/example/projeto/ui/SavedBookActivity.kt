@@ -2,12 +2,12 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.bookId
-import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idLivro
+import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.SavedBookActivityBinding
 import com.example.projeto.model.SavedBook
@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SavedBookActivity: UserActivity() {
+class SavedBookActivity : UserActivity() {
 
     private val binding by lazy {
         SavedBookActivityBinding.inflate(layoutInflater)
@@ -30,48 +30,44 @@ class SavedBookActivity: UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val favoriteBook = intent.getParcelableExtra<SavedBook>(bookId) as SavedBook
-        val emailUser = intent.getStringExtra(userEmail)
+        val livroFavorito = intent.getParcelableExtra<SavedBook>(idLivro) as SavedBook
+        val emailUsuario = intent.getStringExtra(usuarioEmail)
 
-        binding.btnReturn.setOnClickListener {
-            goToBookList(emailUser)
+        binding.btnVoltar.setOnClickListener {
+            irParaBooklist(emailUsuario)
         }
 
-        binding.bookTitle.text = favoriteBook.title
-        binding.bookDesc.text = favoriteBook.description.toString()
-        binding.bookImage.loadImage(favoriteBook.image)
+        binding.livroTitulo.text = livroFavorito.title
+        binding.livroDesc.text = livroFavorito.description.toString()
+        binding.livroImagem.loadImage(livroFavorito.image)
 
-        when {
-            favoriteBook.author == "null" -> {
-                binding.bookAuthor.text = ""
-            }
-            favoriteBook.author !== "null" -> {
-                binding.bookAuthor.text = favoriteBook.author.toString()
-            }
-        }
+        if (livroFavorito.author == "null")
+            binding.livroAutor.text = ""
+        if (livroFavorito.author !== "null")
+            binding.livroAutor.text = livroFavorito.author.toString()
 
-        binding.btnRemove.setOnClickListener {
-            removeFromBooklist(favoriteBook, emailUser)
+        binding.btnRemover.setOnClickListener {
+            removerDaBooklist(livroFavorito, emailUsuario)
         }
     }
 
-    private fun removeFromBooklist(
-        favoriteBook: SavedBook,
-        emailUser: String?
+    private fun removerDaBooklist(
+        livroSalvo: SavedBook,
+        emailUsuario: String?
     ) {
         lifecycleScope.launch(IO) {
-            dao.deleteSavedBook(favoriteBook)
+            dao.removerLivroSalvo(livroSalvo)
             withContext(Main) {
                 toast("Livro excluído com sucesso")
-                goToBookList(emailUser)
+                irParaBooklist(emailUsuario)
             }
         }
     }
 
-    private fun goToBookList(emailUser: String?) {
-        goTo(FavoritesActivity::class.java) {
-            putExtra(userEmail, emailUser)
-            loggedUser
+    private fun irParaBooklist(emailUsuario: String?) {
+        irPara(FavoritesActivity::class.java) {
+            putExtra(usuarioEmail, emailUsuario)
+            usuarioLogado
         }
         finish()
     }

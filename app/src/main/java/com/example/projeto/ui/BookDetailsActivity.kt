@@ -3,12 +3,12 @@ package com.example.projeto.ui
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
-import com.example.projeto.contextExpresions.bookId
-import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idLivro
+import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.BookDetailsBinding
 import com.example.projeto.databinding.SavedBookPopupBinding
@@ -31,44 +31,44 @@ class BookDetailsActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val email: String = intent.getStringExtra(userEmail).toString()
-        val book: Book = intent.getParcelableExtra<Book>(bookId) as Book
+        val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
+        val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
 
         lifecycleScope.launch(IO) {
-            val existentBook: SavedBook? = dao.searchSavedBook(book.id, email)
+            val livroExistente: SavedBook? = dao.buscarLivroSalvo(livro.id, emailUsuario)
             withContext(Main) {
-                bookDetailsConfig(binding, book, existentBook)
+                bookDetailsConfig(binding, livro, livroExistente)
             }
         }
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnVoltar.setOnClickListener {
             finish()
         }
 
-        val bookToSave =
+        val livroParaSalvar =
             SavedBook(
-                image = book.image.toString(),
-                author = book.author,
-                idBook = book.id,
-                description = book.description.toString(),
-                userEmail = email,
+                image = livro.image.toString(),
+                author = livro.author,
+                idBook = livro.id,
+                description = livro.description.toString(),
+                userEmail = emailUsuario,
                 id = UUID.randomUUID().toString(),
-                title = book.title
+                title = livro.title.toString()
             )
 
-        val btnSave = binding.btnAdd
-        btnSave.setOnClickListener {
+        val btnAdicionar = binding.btnAdd
+        btnAdicionar.setOnClickListener {
             lifecycleScope.launch(IO) {
-                if (bookToSave.userEmail == "null")
+                if (livroParaSalvar.userEmail == "null")
                     withContext(Main) {
                         toast("Não foi possível salvar o livro")
                     }
 
-                if (bookToSave.userEmail != "null") {
-                    val existentBook = dao.searchSavedBook(book.id, email)
+                if (livroParaSalvar.userEmail != "null") {
+                    val livroExistente = dao.buscarLivroSalvo(livro.id, emailUsuario)
                     when {
-                        existentBook == null -> {
-                            dao.saveBook(bookToSave)
+                        livroExistente == null -> {
+                            dao.salvarLivro(livroParaSalvar)
                             withContext(Main) {
                                 binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
                                 toast("Adicionado à BookList!")
@@ -94,9 +94,9 @@ class BookDetailsActivity : UserActivity() {
             finish()
         }
         popup.btnBooklist.setOnClickListener {
-            goTo(FavoritesActivity::class.java) {
-                putExtra(userEmail, email)
-                loggedUser
+            irPara(FavoritesActivity::class.java) {
+                putExtra(usuarioEmail, email)
+                usuarioLogado
             }
             finish()
         }
@@ -107,19 +107,18 @@ class BookDetailsActivity : UserActivity() {
         book: Book,
         existentBook: SavedBook?
     ) {
-        binding.bookTitle.text = book.title
-        binding.bookDesc.text = book.description
-        binding.bookImage.loadImage(book.image)
+        binding.livroTitulo.text = book.title
+        binding.livroDesc.text = book.description
+        binding.livroImagem.loadImage(book.image)
 
         when {
             book.author == "null" -> {
-                binding.bookAuthor.text = ""
+                binding.livroAutor.text = ""
             }
             book.author !== "null" -> {
-                binding.bookAuthor.text = book.author.toString()
+                binding.livroAutor.text = book.author.toString()
             }
         }
-
 
         if (existentBook !== null)
             binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)

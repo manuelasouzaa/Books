@@ -1,13 +1,14 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.contextExpresions.loggedUser
-import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.databinding.ActivityMainBinding
 import com.example.projeto.viewModel.MainActivityViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -29,34 +30,48 @@ class MainActivity : UserActivity() {
 
         val viewModel: MainActivityViewModel by viewModels()
 
-        binding.search.setOnClickListener {
-            val search = binding.editText.text.toString()
-            lifecycleScope.launch(IO) {
-                launch {
-                    viewModel.searchApi(search, this@MainActivity, user)
+        binding.btnBuscar.setOnClickListener {
+            val busca = binding.editText.text.toString()
+
+            try {
+                lifecycleScope.launch(IO) {
+                    viewModel.pesquisarLivro(
+                        busca,
+                        this@MainActivity,
+                        usuario
+                    )
                 }
+            } catch (e: Exception) {
+                Log.e("erro", "pesquisa não realizada", e)
+                Toast.makeText(
+                    this@MainActivity,
+                    "Pesquisa não realizada",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
         }
 
-        binding.btnAccount.setOnClickListener {
-            goToActivity(AccountActivity::class.java)
+
+        binding.btnConta.setOnClickListener {
+            irParaActivity(AccountActivity::class.java)
             finish()
         }
 
-        binding.btnFavorites.setOnClickListener {
-            goToActivity(FavoritesActivity::class.java)
+        binding.btnBooklist.setOnClickListener {
+            irParaActivity(FavoritesActivity::class.java)
         }
 
     }
 
-    private fun goToActivity(activity: Class<*>) {
+    private fun irParaActivity(activity: Class<*>) {
         lifecycleScope.launch(IO) {
-            user.filterNotNull().collect {
-                val email = user.value?.email.toString()
-                withContext(Main){
-                    goTo(activity) {
-                        putExtra(userEmail, email)
-                        loggedUser
+            usuario.filterNotNull().collect {
+                val email = usuario.value?.email.toString()
+                withContext(Main) {
+                    irPara(activity) {
+                        putExtra(usuarioEmail, email)
+                        usuarioLogado
                     }
                 }
             }

@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.contextExpresions.dataStore
-import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.model.User
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ abstract class UserActivity : AppCompatActivity() {
     }
 
     private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
-    val user: StateFlow<User?> = _user
+    val usuario: StateFlow<User?> = _user
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +37,14 @@ abstract class UserActivity : AppCompatActivity() {
 
     private suspend fun verifyLoggedUser() {
         dataStore.data.first().let { preferences ->
-            preferences[loggedUser]?.let { email ->
+            preferences[usuarioLogado]?.let { email ->
                 fetchUser(email)
-            } ?: goToLogin()
+            } ?: irParaLogin()
         }
     }
 
-    protected fun goToLogin() {
-        goTo(LoginActivity::class.java) {
+    protected fun irParaLogin() {
+        irPara(LoginActivity::class.java) {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         finish()
@@ -56,9 +56,9 @@ abstract class UserActivity : AppCompatActivity() {
         }
     }
 
-    protected suspend fun removeUser() {
+    protected suspend fun removerUsuario() {
         dataStore.edit {
-            it.remove(loggedUser)
+            it.remove(usuarioLogado)
         }
     }
 }

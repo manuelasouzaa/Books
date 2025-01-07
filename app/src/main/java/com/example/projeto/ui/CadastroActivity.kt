@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.CadastroActivityBinding
 import com.example.projeto.model.User
@@ -30,42 +30,42 @@ class CadastroActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             lifecycleScope.launch(IO) {
-                createUser()
+                criarUsuario()
             }
         }
 
         binding.link.setOnClickListener {
-            goTo(LoginActivity::class.java)
+            irPara(LoginActivity::class.java)
             finish()
         }
     }
 
-    private fun createUser(): User {
+    private fun criarUsuario(): User {
         val email = binding.email.text.toString()
-        val name = binding.username.text.toString()
-        val password = binding.password.text.toString()
+        val nome = binding.nomeUsuario.text.toString()
+        val senha = binding.senha.text.toString()
 
-        val newUser = User(
+        val novoUsuario = User(
             email = email,
-            name = name,
-            password = password
+            name = nome,
+            password = senha
         )
 
-        if (email == "" || password == "")
+        if (email == "" || senha == "")
             lifecycleScope.launch(Main) {
                 toast("Preencha todos os campos")
             }
 
-        dao.salva(newUser)
+        dao.salva(novoUsuario)
 
         lifecycleScope.launch(Main) {
             toast("Cadastro realizado com sucesso!")
-            goTo(LoginActivity::class.java) {
-                newUser
+            irPara(LoginActivity::class.java) {
+                novoUsuario
             }
             finish()
 
         }
-        return newUser
+        return novoUsuario
     }
 }
