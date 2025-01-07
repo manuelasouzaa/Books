@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.json.GoogleApiAnswer

@@ -24,30 +24,32 @@
             android:padding="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_return"
-            app:layout_constraintBottom_toTopOf="@id/recycler"
+            app:layout_constraintBottom_toTopOf="@id/book_quantity"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/no_books"
+            android:id="@+id/book_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
-            android:text="@string/nenhum_livro_adicionado"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/lighter_blue"
             android:textSize="18sp"
-            android:visibility="gone"
-            android:layout_marginTop="40dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo"
+            app:layout_constraintBottom_toTopOf="@id/recycler" />
 
         <TextView
+            android:id="@+id/titulo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/peralta"
-            android:text="@string/minha_booklist"
+            android:text="@string/booklist"
             android:textAlignment="center"
-            android:textColor="@color/lighter_blue"
+            android:textColor="@color/white"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="@id/btn_voltar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,10 +60,10 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_voltar"
+            app:layout_constraintTop_toBottomOf="@id/book_quantity"
             tools:listitem="@layout/search_item" />
 
         <Space

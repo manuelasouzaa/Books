@@ -1,17 +1,20 @@
 package com.example.projeto.ui
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.idLivro
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.BookDetailsBinding
-import com.example.projeto.databinding.SavedBookPopupBinding
+import com.example.projeto.databinding.SavedBookDialogBinding
 import com.example.projeto.model.Book
 import com.example.projeto.model.SavedBook
 import kotlinx.coroutines.Dispatchers.IO
@@ -53,7 +56,7 @@ class BookDetailsActivity : UserActivity() {
                 description = livro.description.toString(),
                 userEmail = emailUsuario,
                 id = UUID.randomUUID().toString(),
-                title = livro.title.toString()
+                title = livro.title
             )
 
         val btnAdicionar = binding.btnAdd
@@ -71,8 +74,8 @@ class BookDetailsActivity : UserActivity() {
                             dao.salvarLivro(livroParaSalvar)
                             withContext(Main) {
                                 binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
-                                toast("Adicionado à BookList!")
-//                                openPopup(email)
+//                                toast("Adicionado à BookList!")
+                                exibirCaixaDialogo(emailUsuario)
                             }
                         }
 
@@ -87,19 +90,31 @@ class BookDetailsActivity : UserActivity() {
         }
     }
 
-    private fun openPopup(email: String) {
-        val popup = SavedBookPopupBinding.inflate(layoutInflater)
-        setContentView(popup.root)
-        popup.btnVoltar.setOnClickListener {
+    private fun exibirCaixaDialogo(emailUsuario: String) {
+        val dialog = Dialog(this)
+        val bindingDialog = SavedBookDialogBinding.inflate(layoutInflater)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnVoltarDialog = bindingDialog.btnVoltar
+        val btnBooklistDialog = bindingDialog.btnBooklist
+
+        btnVoltarDialog.setOnClickListener {
+            dialog.dismiss()
             finish()
         }
-        popup.btnBooklist.setOnClickListener {
+
+        btnBooklistDialog.setOnClickListener {
+            dialog.dismiss()
+            finish()
             irPara(FavoritesActivity::class.java) {
-                putExtra(usuarioEmail, email)
-                usuarioLogado
+                putExtra(usuarioEmail, emailUsuario)
             }
-            finish()
         }
+        dialog.show()
+
     }
 
     private fun bookDetailsConfig(
@@ -115,6 +130,7 @@ class BookDetailsActivity : UserActivity() {
             book.author == "null" -> {
                 binding.livroAutor.text = ""
             }
+
             book.author != "null" -> {
                 binding.livroAutor.text = book.author.toString()
             }

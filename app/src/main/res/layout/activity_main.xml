@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/petroleum_blue"
         android:fontFamily="@font/peralta"
-        android:text="@string/my_booklist"
+        android:text="@string/booklist"
         android:textSize="20sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

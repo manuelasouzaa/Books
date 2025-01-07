@@ -40,12 +40,12 @@ class LoginActivity : AppCompatActivity() {
     private fun btnEnterConfig() {
         binding.btnEnter.setOnClickListener {
             val email = binding.email.text.toString()
-            val password = binding.senha.text.toString()
-            autenticate(email, password)
+            val senha = binding.senha.text.toString()
+            autenticar(email, senha)
         }
     }
 
-    private fun autenticate(email: String, password: String) {
+    private fun autenticar(email: String, password: String) {
         lifecycleScope.launch(IO) {
             dao.buscaUsuario(email, password)?.let { user ->
                 launch {
@@ -57,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
                     usuarioLogado
                 }
                 finish()
-
             } ?: run {
                 withContext(Main) {
                     toast("Usuário não encontrado. Faça o cadastro")

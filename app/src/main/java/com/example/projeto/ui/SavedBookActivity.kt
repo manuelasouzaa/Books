@@ -1,20 +1,22 @@
 package com.example.projeto.ui
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.idLivro
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.usuarioLogado
-import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioEmail
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.database.LibraryDatabase
+import com.example.projeto.databinding.DeleteBookDialogBinding
 import com.example.projeto.databinding.SavedBookActivityBinding
 import com.example.projeto.model.SavedBook
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SavedBookActivity : UserActivity() {
 
@@ -43,32 +45,19 @@ class SavedBookActivity : UserActivity() {
         if (livroFavorito.author.isNullOrEmpty())
             binding.livroAutor.text = ""
         if (livroFavorito.author == "null")
-            binding.livroAutor.text =  ""
+            binding.livroAutor.text = ""
         if (livroFavorito.author != "null")
             binding.livroAutor.text = livroFavorito.author
 
         if (livroFavorito.description.isNullOrEmpty())
             binding.livroDesc.text = ""
         if (livroFavorito.description == "null")
-            binding.livroDesc.text =  ""
+            binding.livroDesc.text = ""
         if (livroFavorito.description != "null")
             binding.livroDesc.text = livroFavorito.description
 
         binding.btnRemover.setOnClickListener {
-            removerDaBooklist(livroFavorito, emailUsuario)
-        }
-    }
-
-    private fun removerDaBooklist(
-        livroSalvo: SavedBook,
-        emailUsuario: String?
-    ) {
-        lifecycleScope.launch(IO) {
-            dao.removerLivroSalvo(livroSalvo)
-            withContext(Main) {
-                toast("Livro excluído com sucesso")
-                irParaBooklist(emailUsuario)
-            }
+            exibirCaixaDialogo(livroFavorito, emailUsuario)
         }
     }
 
@@ -78,5 +67,39 @@ class SavedBookActivity : UserActivity() {
             usuarioLogado
         }
         finish()
+
+    }
+
+    private fun exibirCaixaDialogo(livroSalvo: SavedBook, emailUsuario: String?) {
+        val dialog = Dialog(this)
+        val bindingDialog = DeleteBookDialogBinding.inflate(layoutInflater)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnSim = bindingDialog.btnSim
+        val btnNao = bindingDialog.btnNao
+
+        btnNao.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnSim.setOnClickListener {
+            dialog.dismiss()
+            removerDaBooklist(livroSalvo, emailUsuario)
+        }
+        dialog.show()
+    }
+
+    private fun removerDaBooklist(
+        livroSalvo: SavedBook,
+        emailUsuario: String?
+    ) {
+        lifecycleScope.launch(IO) {
+            dao.removerLivroSalvo(livroSalvo)
+            finish()
+            irParaBooklist(emailUsuario)
+        }
     }
 }

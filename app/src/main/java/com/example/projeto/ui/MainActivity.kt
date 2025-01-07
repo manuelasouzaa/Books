@@ -29,10 +29,8 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         val viewModel: MainActivityViewModel by viewModels()
-
         binding.btnBuscar.setOnClickListener {
             val busca = binding.editText.text.toString()
-
             try {
                 lifecycleScope.launch(IO) {
                     viewModel.pesquisarLivro(
@@ -51,7 +49,6 @@ class MainActivity : UserActivity() {
                     .show()
             }
         }
-
 
         binding.btnConta.setOnClickListener {
             irParaActivity(AccountActivity::class.java)

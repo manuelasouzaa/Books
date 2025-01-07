@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/btn_voltar"
             android:text="@string/livros_encontrados"
-            android:textColor="@color/lighter_blue"
+            android:textColor="@color/white"
             android:fontFamily="@font/peralta"
             android:textSize="24sp"
             android:textAlignment="center"/>

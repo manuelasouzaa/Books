@@ -2,7 +2,6 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +31,6 @@ class FavoritesActivity : UserActivity() {
         FavoritesAdapter(this)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -46,21 +44,35 @@ class FavoritesActivity : UserActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val emailUsuario = intent.getStringExtra(usuarioEmail).toString()
+        verificarLista(emailUsuario)
+    }
+
     private fun verificarLista(
         emailUsuario: String
     ) {
         val recycler = binding.recycler
         lifecycleScope.launch(IO) {
             val livrosSalvos = dao.exibirLivrosSalvos(emailUsuario)
+
             if (livrosSalvos != null)
                 withContext(Main) {
                     recyclerViewConfig(emailUsuario, recycler)
                     adapter.atualizar(livrosSalvos)
+
+                    val quantidadeLivros = adapter.itemCount
+                    if (quantidadeLivros == 1)
+                        binding.bookQuantity.text = "1 livro adicionado"
+                    if (quantidadeLivros > 1)
+                        binding.bookQuantity.text = "$quantidadeLivros livros adicionados"
                 }
 
             if (livrosSalvos.isNullOrEmpty())
                 withContext(Main) {
-                    binding.noBooks.visibility = VISIBLE
+                    binding.bookQuantity.text = "Nenhum livro adicionado"
                     recycler.visibility = GONE
                 }
         }

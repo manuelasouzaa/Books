@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:id="@+id/card"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/lighter_blue"
+    app:cardCornerRadius="40dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:cardElevation="20dp"
+    android:layout_margin="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imagem"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toTopOf="@id/texto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/texto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:fontFamily="@font/alata"
+            android:text="Deseja remover o livro de sua lista?"
+            android:textAlignment="center"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imagem" />
+
+        <Button
+            android:id="@+id/btn_sim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/petroleum_blue"
+            android:text="Sim"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="@font/alata"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_nao"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/texto" />
+
+        <Button
+            android:id="@+id/btn_nao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/petroleum_blue"
+            android:text="Não"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/alata"
+            app:layout_constraintBottom_toBottomOf="@id/btn_sim"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_sim"
+            app:layout_constraintTop_toTopOf="@id/btn_sim" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
