@@ -115,7 +115,7 @@ class BookDetailsActivity : UserActivity() {
             book.author == "null" -> {
                 binding.livroAutor.text = ""
             }
-            book.author !== "null" -> {
+            book.author != "null" -> {
                 binding.livroAutor.text = book.author.toString()
             }
         }

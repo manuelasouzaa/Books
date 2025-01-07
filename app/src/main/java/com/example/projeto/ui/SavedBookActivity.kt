@@ -38,13 +38,21 @@ class SavedBookActivity : UserActivity() {
         }
 
         binding.livroTitulo.text = livroFavorito.title
-        binding.livroDesc.text = livroFavorito.description.toString()
         binding.livroImagem.loadImage(livroFavorito.image)
 
-        if (livroFavorito.author == "null")
+        if (livroFavorito.author.isNullOrEmpty())
             binding.livroAutor.text = ""
-        if (livroFavorito.author !== "null")
-            binding.livroAutor.text = livroFavorito.author.toString()
+        if (livroFavorito.author == "null")
+            binding.livroAutor.text =  ""
+        if (livroFavorito.author != "null")
+            binding.livroAutor.text = livroFavorito.author
+
+        if (livroFavorito.description.isNullOrEmpty())
+            binding.livroDesc.text = ""
+        if (livroFavorito.description == "null")
+            binding.livroDesc.text =  ""
+        if (livroFavorito.description != "null")
+            binding.livroDesc.text = livroFavorito.description
 
         binding.btnRemover.setOnClickListener {
             removerDaBooklist(livroFavorito, emailUsuario)

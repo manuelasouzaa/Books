@@ -7,9 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projeto.contextExpresions.loadImage
 import com.example.projeto.databinding.SearchItemBinding
 import com.example.projeto.model.SavedBook
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 class FavoritesAdapter(
     private val context: Context,
