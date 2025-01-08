@@ -9,13 +9,9 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
-class BookDetailsViewModel(context: Context): ViewModel() {
+class BookDetailsViewModel: ViewModel() {
 
-    private val dao by lazy {
-        LibraryDatabase.instance(context).savedBookDao()
-    }
-
-    suspend fun adicionarLivro(livro: Book, emailUsuario: String) {
+    suspend fun adicionarLivro(livro: Book, emailUsuario: String, context: Context) {
         val livroParaSalvar =
             SavedBook(
                 image = livro.image.toString(),
@@ -27,12 +23,14 @@ class BookDetailsViewModel(context: Context): ViewModel() {
                 title = livro.title
             )
 
+        val dao = LibraryDatabase.instance(context).savedBookDao()
         withContext(IO) {
             dao.salvarLivro(livroParaSalvar)
         }
     }
 
-    fun buscarLivroSalvo(livro: Book, emailUsuario: String): SavedBook? {
+    fun buscarLivroSalvo(livro: Book, emailUsuario: String, context: Context): SavedBook? {
+        val dao = LibraryDatabase.instance(context).savedBookDao()
         return dao.buscarLivroSalvo(livro.id, emailUsuario)
     }
 }

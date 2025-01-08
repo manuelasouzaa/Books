@@ -16,7 +16,6 @@ import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.databinding.BookDetailsBinding
 import com.example.projeto.databinding.SavedBookDialogBinding
 import com.example.projeto.model.Book
-import com.example.projeto.model.SavedBook
 import com.example.projeto.viewModel.BookDetailsViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -24,6 +23,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BookDetailsActivity : UserActivity() {
+
+    private val viewModel: BookDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = BookDetailsBinding.inflate(layoutInflater)
@@ -33,39 +34,43 @@ class BookDetailsActivity : UserActivity() {
         val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
         val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
 
-        val viewModel: BookDetailsViewModel by viewModels()
-        val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario)
 
-        bookDetailsConfig(binding, livro, livroSalvo)
+
+        bookDetailsConfig(binding, livro, emailUsuario)
 
         binding.btnVoltar.setOnClickListener {
             finish()
         }
 
         binding.btnAdd.setOnClickListener {
-            val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario)
+            lifecycleScope.launch(IO) {
+                val livroSalvo =
+                    viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
 
-            if (livroSalvo == null) {
-                adicionarLivro(viewModel, livro, emailUsuario, binding)
-            }
+                if (livroSalvo == null) {
+                    adicionarLivro(viewModel, livro, emailUsuario, binding)
+                }
 
-            if (livroSalvo !== null) {
-                toast("Este livro já foi adicionado")
+                if (livroSalvo !== null) {
+                    withContext(Main) {
+                        toast("Este livro já foi adicionado")
+                    }
+                }
             }
         }
     }
 
-    private fun adicionarLivro(
+    private suspend fun adicionarLivro(
         viewModel: BookDetailsViewModel,
         livro: Book,
         emailUsuario: String,
         binding: BookDetailsBinding
     ) {
-        lifecycleScope.launch(IO) {
-            viewModel.adicionarLivro(livro, emailUsuario)
+        viewModel.adicionarLivro(livro, emailUsuario, this@BookDetailsActivity)
+        withContext(Main) {
+            binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+            exibirCaixaDialogo(emailUsuario)
         }
-        binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
-        exibirCaixaDialogo(emailUsuario)
     }
 
     private fun exibirCaixaDialogo(emailUsuario: String) {
@@ -97,25 +102,30 @@ class BookDetailsActivity : UserActivity() {
 
     private fun bookDetailsConfig(
         binding: BookDetailsBinding,
-        book: Book,
-        existentBook: SavedBook?
+        livro: Book,
+        emailUsuario: String
     ) {
-        binding.livroTitulo.text = book.title
-        binding.livroDesc.text = book.description
-        binding.livroImagem.loadImage(book.image)
+        binding.livroTitulo.text = livro.title
+        binding.livroDesc.text = livro.description
+        binding.livroImagem.loadImage(livro.image)
 
         when {
-            book.author == "null" -> {
+            livro.author == "null" -> {
                 binding.livroAutor.text = ""
             }
 
-            book.author != "null" -> {
-                binding.livroAutor.text = book.author.toString()
+            livro.author != "null" -> {
+                binding.livroAutor.text = livro.author.toString()
             }
         }
 
-        if (existentBook !== null)
-            binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+        lifecycleScope.launch(IO) {
+            val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
+
+            if (livroSalvo !== null)
+                binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+        }
+
     }
 }
 

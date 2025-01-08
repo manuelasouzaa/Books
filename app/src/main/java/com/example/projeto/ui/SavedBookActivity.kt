@@ -35,10 +35,18 @@ class SavedBookActivity : UserActivity() {
         val livroFavorito = intent.getParcelableExtra<SavedBook>(idLivro) as SavedBook
         val emailUsuario = intent.getStringExtra(usuarioEmail)
 
+        savedBookConfig(livroFavorito)
+
         binding.btnVoltar.setOnClickListener {
             irParaBooklist(emailUsuario)
         }
 
+        binding.btnRemover.setOnClickListener {
+            exibirCaixaDialogo(livroFavorito, emailUsuario)
+        }
+    }
+
+    private fun savedBookConfig(livroFavorito: SavedBook) {
         binding.livroTitulo.text = livroFavorito.title
         binding.livroImagem.loadImage(livroFavorito.image)
 
@@ -55,10 +63,6 @@ class SavedBookActivity : UserActivity() {
             binding.livroDesc.text = ""
         if (livroFavorito.description != "null")
             binding.livroDesc.text = livroFavorito.description
-
-        binding.btnRemover.setOnClickListener {
-            exibirCaixaDialogo(livroFavorito, emailUsuario)
-        }
     }
 
     private fun irParaBooklist(emailUsuario: String?) {
@@ -67,7 +71,6 @@ class SavedBookActivity : UserActivity() {
             usuarioLogado
         }
         finish()
-
     }
 
     private fun exibirCaixaDialogo(livroSalvo: SavedBook, emailUsuario: String?) {
@@ -87,12 +90,12 @@ class SavedBookActivity : UserActivity() {
 
         btnSim.setOnClickListener {
             dialog.dismiss()
-            removerDaBooklist(livroSalvo, emailUsuario)
+            removerLivro(livroSalvo, emailUsuario)
         }
         dialog.show()
     }
 
-    private fun removerDaBooklist(
+    private fun removerLivro(
         livroSalvo: SavedBook,
         emailUsuario: String?
     ) {

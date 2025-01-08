@@ -70,10 +70,10 @@ class FavoritesActivity : UserActivity() {
                         binding.bookQuantity.text = "$quantidadeLivros livros adicionados"
                 }
 
-                if (livrosSalvos.isNullOrEmpty())
+                if (livrosSalvos.isNullOrEmpty()) {
                     binding.bookQuantity.text = "Nenhum livro adicionado"
-                recycler.visibility = GONE
-
+                    recycler.visibility = GONE
+                }
             }
         }
     }

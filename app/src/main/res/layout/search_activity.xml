@@ -15,8 +15,8 @@
             android:id="@+id/btn_voltar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:backgroundTint="@color/dark_blue"
             android:padding="0dp"
@@ -29,15 +29,15 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/btn_voltar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/btn_voltar"
-            android:text="@string/livros_encontrados"
-            android:textColor="@color/white"
             android:fontFamily="@font/peralta"
+            android:text="@string/livros_encontrados"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="24sp"
-            android:textAlignment="center"/>
+            app:layout_constraintBottom_toBottomOf="@id/btn_voltar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_voltar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:backgroundTint="@color/dark_blue"
-            app:layout_constraintTop_toBottomOf="@id/recycler"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -2,14 +2,13 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.contextExpresions.usuarioEmail
+import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.databinding.ActivityMainBinding
 import com.example.projeto.viewModel.MainActivityViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -30,9 +29,10 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         val viewModel: MainActivityViewModel by viewModels()
-        val busca = binding.editText.text.toString()
+
 
         binding.btnBuscar.setOnClickListener {
+            val busca = binding.editText.text.toString()
             try {
                 lifecycleScope.launch(IO) {
                     viewModel.pesquisarLivro(busca,this@MainActivity, usuario)

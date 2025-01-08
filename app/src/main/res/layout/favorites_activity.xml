@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,8 +17,8 @@
             android:id="@+id/btn_voltar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/dark_blue"
             android:padding="0dp"
             android:scaleType="fitXY"
@@ -32,15 +31,15 @@
             android:id="@+id/book_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/alata"
             android:textAlignment="center"
             android:textColor="@color/lighter_blue"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recycler"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titulo"
-            app:layout_constraintBottom_toTopOf="@id/recycler" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo" />
 
         <TextView
             android:id="@+id/titulo"
@@ -70,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:backgroundTint="@color/dark_blue"
-            app:layout_constraintTop_toBottomOf="@id/recycler"
-            app:layout_constraintBottom_toBottomOf="@id/constraint"/>
+            app:layout_constraintBottom_toBottomOf="@id/constraint"
+            app:layout_constraintTop_toBottomOf="@id/recycler" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

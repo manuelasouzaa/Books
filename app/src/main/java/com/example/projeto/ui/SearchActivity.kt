@@ -42,7 +42,6 @@ class SearchActivity : UserActivity() {
                 recyclerViewConfig(email.toString())
                 adapter.atualizar(bookList)
             }
-
         }
     }
 
