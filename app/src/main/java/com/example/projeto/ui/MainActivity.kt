@@ -1,10 +1,14 @@
 package com.example.projeto.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.projeto.R
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioEmail
@@ -23,19 +27,22 @@ class MainActivity : UserActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private lateinit var viewModel: MainActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        val viewModel: MainActivityViewModel by viewModels()
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
+        Log.i("TAG", "onCreate: teste")
 
         binding.btnBuscar.setOnClickListener {
             val busca = binding.editText.text.toString()
             try {
                 lifecycleScope.launch(IO) {
-                    viewModel.pesquisarLivro(busca,this@MainActivity, usuario)
+                    viewModel.pesquisarLivro(busca,this@MainActivity, usuario, binding)
                 }
             } catch (e: Exception) {
                 Log.e("erro", "Erro ao pesquisar", e)

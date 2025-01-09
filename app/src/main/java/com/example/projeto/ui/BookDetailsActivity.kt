@@ -4,8 +4,11 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.idLivro
@@ -24,40 +27,43 @@ import kotlinx.coroutines.withContext
 
 class BookDetailsActivity : UserActivity() {
 
-    private val viewModel: BookDetailsViewModel by viewModels()
+    private lateinit var viewModel: BookDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = BookDetailsBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
-        val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
+        viewModel = ViewModelProvider(this)[BookDetailsViewModel::class.java]
 
+        if (savedInstanceState == null) {
+            val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
+            val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
 
+            bookDetailsConfig(binding, livro, emailUsuario)
 
-        bookDetailsConfig(binding, livro, emailUsuario)
+            binding.btnAdd.setOnClickListener {
+                lifecycleScope.launch(IO) {
+                    val livroSalvo =
+                        viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
+
+                    if (livroSalvo == null) {
+                        adicionarLivro(viewModel, livro, emailUsuario, binding)
+                    }
+
+                    if (livroSalvo !== null) {
+                        withContext(Main) {
+                            toast("Este livro já foi adicionado")
+                        }
+                    }
+                }
+            }
+        }
 
         binding.btnVoltar.setOnClickListener {
             finish()
         }
 
-        binding.btnAdd.setOnClickListener {
-            lifecycleScope.launch(IO) {
-                val livroSalvo =
-                    viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
-
-                if (livroSalvo == null) {
-                    adicionarLivro(viewModel, livro, emailUsuario, binding)
-                }
-
-                if (livroSalvo !== null) {
-                    withContext(Main) {
-                        toast("Este livro já foi adicionado")
-                    }
-                }
-            }
-        }
     }
 
     private suspend fun adicionarLivro(
@@ -105,6 +111,9 @@ class BookDetailsActivity : UserActivity() {
         livro: Book,
         emailUsuario: String
     ) {
+
+        Log.i("TAG", "bookDetailsConfig: teste")
+
         binding.livroTitulo.text = livro.title
         binding.livroDesc.text = livro.description
         binding.livroImagem.loadImage(livro.image)

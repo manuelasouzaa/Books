@@ -65,4 +65,9 @@ dependencies {
     implementation(libs.coil)
 
     implementation (libs.androidx.core.splashscreen)
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7")
+
 }
