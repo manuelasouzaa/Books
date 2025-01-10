@@ -4,11 +4,8 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
 import com.example.projeto.contextExpresions.idLivro
@@ -99,6 +96,10 @@ class BookDetailsActivity : UserActivity() {
             }
         }
         dialog.show()
+
+        bindingDialog.btnFechar.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun bookDetailsConfig(
