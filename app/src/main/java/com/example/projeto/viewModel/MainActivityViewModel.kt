@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.usuarioEmail
-import com.example.projeto.databinding.ActivityMainBinding
 import com.example.projeto.json.GoogleApiAnswer
 import com.example.projeto.model.Book
 import com.example.projeto.model.User
@@ -25,30 +24,28 @@ class MainActivityViewModel : ViewModel() {
         Retrofit().webService
     }
 
-    suspend fun pesquisarLivro(busca: String, context: Context, usuario: StateFlow<User?>, binding: ActivityMainBinding) {
+    suspend fun pesquisarLivro(
+        busca: String,
+        context: Context,
+        usuario: StateFlow<User?>
+    ) {
         withContext(IO) {
-            launch {
-                val lista = service.buscarLivros(busca)
-                buscarLivro(lista, context, usuario, binding)
-            }
+            val lista = service.buscarLivros(busca)
+            buscarLivro(lista, context, usuario)
         }
     }
 
     private suspend fun buscarLivro(
         list: GoogleApiAnswer,
         context: Context,
-        usuario: StateFlow<User?>,
-        binding: ActivityMainBinding
+        usuario: StateFlow<User?>
     ) {
         try {
             val booklist: List<Book?> = obterLista(list)
             enviarLista(booklist, context, usuario)
         } catch (e: Exception) {
             withContext(Main) {
-                launch {
-                    Toast.makeText(context, "Livro não encontrado", Toast.LENGTH_SHORT).show()
-                    binding.editText.text.clear()
-                }
+                Toast.makeText(context, "Livro não encontrado", Toast.LENGTH_SHORT).show()
             }
         }
     }

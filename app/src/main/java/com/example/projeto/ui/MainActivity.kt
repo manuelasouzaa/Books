@@ -43,23 +43,25 @@ class MainActivity : UserActivity() {
         Log.i("TAG", "onCreate: teste")
 
         binding.btnBuscar.setOnClickListener {
+            binding.loading.visibility = VISIBLE
+            binding.btnBuscar.visibility = GONE
+
             try {
                 lifecycleScope.launch(IO) {
+                    val busca = binding.editText.text.toString()
                     viewModel.pesquisarLivro(
-                        binding.editText.text.toString(),
+                        busca,
                         this@MainActivity,
-                        usuario,
-                        binding
+                        usuario
                     )
                 }
-                binding.loading.visibility = VISIBLE
-                binding.btnBuscar.visibility = GONE
-                binding.editText.text.clear()
             } catch (e: Exception) {
                 Log.e("erro", "Erro ao pesquisar", e)
-                binding.editText.text.clear()
                 toast("Erro ao pesquisar")
+                binding.loading.visibility = GONE
+                binding.btnBuscar.visibility = VISIBLE
             }
+            binding.editText.text.clear()
         }
 
         binding.btnConta.setOnClickListener {

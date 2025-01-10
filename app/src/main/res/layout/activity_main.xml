@@ -12,7 +12,7 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/peralta"
         android:text="@string/bookscape"
         android:textAlignment="center"
@@ -52,10 +52,10 @@
         android:textColor="@color/dark_blue"
         android:textColorHint="@color/gray"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/botoes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/descricao" />
 
     <ImageView
         android:id="@+id/loading"
@@ -80,6 +80,13 @@
         app:layout_constraintEnd_toEndOf="@id/edit_text"
         app:layout_constraintTop_toTopOf="@id/edit_text" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/botoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edit_text"
+        app:layout_constraintBottom_toTopOf="@id/rodape"
+        android:paddingTop="20dp">
 
     <Button
         android:id="@+id/btn_booklist"
@@ -90,10 +97,11 @@
         android:text="@string/booklist"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_conta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_conta"
@@ -104,10 +112,12 @@
         android:text="@string/my_account"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/rodape"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/btn_booklist"
         app:layout_constraintStart_toStartOf="@id/btn_booklist"
         app:layout_constraintTop_toBottomOf="@id/btn_booklist" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/rodape"
@@ -119,7 +129,6 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_conta" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
