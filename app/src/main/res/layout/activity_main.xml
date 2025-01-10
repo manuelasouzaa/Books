@@ -58,6 +58,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/loading"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:src="@drawable/loading"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/edit_text"
+        app:layout_constraintEnd_toEndOf="@id/edit_text"
+        app:layout_constraintTop_toTopOf="@id/edit_text" />
+
+    <ImageView
         android:id="@+id/btn_buscar"
         android:layout_width="50dp"
         android:layout_height="0dp"
@@ -67,6 +79,7 @@
         app:layout_constraintBottom_toBottomOf="@id/edit_text"
         app:layout_constraintEnd_toEndOf="@id/edit_text"
         app:layout_constraintTop_toTopOf="@id/edit_text" />
+
 
     <Button
         android:id="@+id/btn_booklist"
