@@ -1,29 +1,24 @@
 package com.example.projeto.ui
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.R
 import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.contextExpresions.usuarioEmail
 import com.example.projeto.contextExpresions.usuarioLogado
 import com.example.projeto.databinding.ActivityMainBinding
 import com.example.projeto.viewModel.MainActivityViewModel
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.Serializable
 
 class MainActivity : UserActivity() {
 
@@ -39,52 +34,60 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-
-        Log.i("TAG", "onCreate: teste")
+        val email = usuario.value?.email.toString()
 
         binding.btnBuscar.setOnClickListener {
             binding.loading.visibility = VISIBLE
             binding.btnBuscar.visibility = GONE
 
+            val busca = binding.editText.text.toString()
+
+
             try {
-                lifecycleScope.launch(IO) {
-                    val busca = binding.editText.text.toString()
-                    viewModel.pesquisarLivro(
-                        busca,
-                        this@MainActivity,
-                        usuario
-                    )
+                lifecycleScope.launch {
+                    viewModel.searchBook(busca)
+
+                    viewModel.message.collect {
+                        if (it == "Livro não encontrado")
+                            erroAoPesquisar()
+
+                        if (it == "Livros encontrados") {
+                            viewModel.booklist.collect {
+                                irPara(SearchActivity::class.java) {
+                                    putExtra("booklist", it as Serializable)
+                                    putExtra(usuarioEmail, email)
+                                }
+                            }
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("erro", "Erro ao pesquisar", e)
-                toast("Erro ao pesquisar")
-                binding.loading.visibility = GONE
-                binding.btnBuscar.visibility = VISIBLE
+                erroAoPesquisar()
             }
             binding.editText.text.clear()
         }
 
         binding.btnConta.setOnClickListener {
-            irParaActivity(AccountActivity::class.java)
+            irParaActivity(AccountActivity::class.java, email)
             finish()
         }
 
         binding.btnBooklist.setOnClickListener {
-            irParaActivity(FavoritesActivity::class.java)
+            irParaActivity(FavoritesActivity::class.java, email)
         }
     }
 
-    private fun irParaActivity(activity: Class<*>) {
-        lifecycleScope.launch(IO) {
-            usuario.filterNotNull().collect {
-                val email = usuario.value?.email.toString()
-                withContext(Main) {
-                    irPara(activity) {
-                        putExtra(usuarioEmail, email)
-                        usuarioLogado
-                    }
-                }
-            }
+    private fun erroAoPesquisar() {
+        toast("Erro ao pesquisar")
+        binding.loading.visibility = GONE
+        binding.btnBuscar.visibility = VISIBLE
+    }
+
+    private fun irParaActivity(activity: Class<*>, email: String) {
+        irPara(activity) {
+            putExtra(usuarioEmail, email)
+            usuarioLogado
         }
     }
 }

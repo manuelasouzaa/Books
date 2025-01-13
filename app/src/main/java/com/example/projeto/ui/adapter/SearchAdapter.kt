@@ -36,7 +36,7 @@ class SearchAdapter(
         fun vincula(book: Book) {
             this@ViewHolder.livro = book
 
-            binding.title.text = book.title
+            binding.title.text = book.title?.toString()
             binding.image.loadImage(book.image)
             val autor = binding.writer
             when {
@@ -64,7 +64,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val livro: Book? = livros[position]
         livro?.let {
-            if (livro.title.isNotBlank())
+            if (livro.title?.toString() !== "")
                 holder.vincula(it)
         }
     }

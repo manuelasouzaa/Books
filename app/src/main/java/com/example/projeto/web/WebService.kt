@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface WebService {
 
     @GET("books/v1/volumes")
-    suspend fun buscarLivros(
+    suspend fun searchBooks(
         @Query("q") pesquisa: String): GoogleApiAnswer
 
 }

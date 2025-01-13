@@ -1,22 +1,18 @@
 package com.example.projeto.viewModel
 
-import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.projeto.contextExpresions.irPara
-import com.example.projeto.contextExpresions.usuarioEmail
+import androidx.lifecycle.viewModelScope
 import com.example.projeto.json.GoogleApiAnswer
 import com.example.projeto.model.Book
-import com.example.projeto.model.User
-import com.example.projeto.ui.SearchActivity
 import com.example.projeto.web.Retrofit
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.Serializable
 
 class MainActivityViewModel : ViewModel() {
 
@@ -24,33 +20,58 @@ class MainActivityViewModel : ViewModel() {
         Retrofit().webService
     }
 
-    suspend fun pesquisarLivro(
-        busca: String,
-        context: Context,
-        usuario: StateFlow<User?>
-    ) {
-        withContext(IO) {
-            val lista = service.buscarLivros(busca)
-            buscarLivro(lista, context, usuario)
+    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
+    val state: StateFlow<State> = _state.asStateFlow()
+
+    private val _message: MutableSharedFlow<String> = MutableSharedFlow(0)
+    val message: SharedFlow<String> = _message.asSharedFlow()
+
+    private val _booklist: MutableSharedFlow<List<Book?>> = MutableSharedFlow(0)
+    val booklist: SharedFlow<List<Book?>> = _booklist.asSharedFlow()
+
+    fun searchBook(search: String) {
+        viewModelScope.launch(IO) {
+            _state.emit(State.Loading)
+            val list = service.searchBooks(search)
+            fetchBook(list)
         }
     }
 
-    private suspend fun buscarLivro(
-        list: GoogleApiAnswer,
-        context: Context,
-        usuario: StateFlow<User?>
-    ) {
-        try {
-            val booklist: List<Book?> = obterLista(list)
-            enviarLista(booklist, context, usuario)
-        } catch (e: Exception) {
-            withContext(Main) {
-                Toast.makeText(context, "Livro não encontrado", Toast.LENGTH_SHORT).show()
+    private suspend fun fetchBook(list: GoogleApiAnswer) {
+        val booklist = verifyAnswer(list)
+
+        if (booklist.isNullOrEmpty())
+            errorInSearch()
+
+        viewModelScope.launch {
+            booklist?.map {
+                when {
+                    it?.title?.isNotBlank() == true ->
+                        sendList(booklist)
+
+                    it?.title.isNullOrEmpty() ->
+                        errorInSearch()
+
+                    else -> errorInSearch()
+                }
             }
         }
     }
 
-    private fun obterLista(list: GoogleApiAnswer): List<Book?> {
+    private fun verifyAnswer(lista: GoogleApiAnswer): List<Book?>? {
+        return when {
+            lista.totalItems == 0 ->
+                null
+
+            lista.totalItems > 0 ->
+                getList(lista)
+
+            else ->
+                null
+        }
+    }
+
+    private fun getList(list: GoogleApiAnswer): List<Book?> {
         return list.items.map { item ->
             item.volumeInfo?.let {
                 val book = Book(
@@ -65,22 +86,21 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-    private suspend fun enviarLista(
-        booklist: List<Book?>,
-        context: Context,
-        usuario: StateFlow<User?>
-    ) {
-        withContext(IO) {
-            usuario.filterNotNull().collect {
-                val email = usuario.value?.email.toString()
+    private suspend fun sendList(booklist: List<Book?>) {
+        _state.emit(State.Loaded)
+        _booklist.emit(booklist)
+        _message.emit("Livros encontrados")
+    }
 
-                withContext(Main) {
-                    context.irPara(SearchActivity::class.java) {
-                        putExtra("booklist", booklist as Serializable)
-                        putExtra(usuarioEmail, email)
-                    }
-                }
-            }
-        }
+    private suspend fun errorInSearch() {
+        _state.emit(State.Error)
+        _message.emit("Livro não encontrado")
+        return
+    }
+
+    sealed class State {
+        object Error : State()
+        object Loaded : State()
+        object Loading : State()
     }
 }
