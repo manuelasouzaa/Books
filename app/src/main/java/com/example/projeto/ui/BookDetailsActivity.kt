@@ -8,11 +8,11 @@ import android.view.Window
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.R
-import com.example.projeto.contextExpresions.idLivro
-import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idBook
 import com.example.projeto.contextExpresions.loadImage
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.usuarioEmail
+import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.BookDetailsBinding
 import com.example.projeto.databinding.SavedBookDialogBinding
 import com.example.projeto.model.Book
@@ -31,47 +31,46 @@ class BookDetailsActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val emailUsuario: String = intent.getStringExtra(usuarioEmail).toString()
-        val livro: Book = intent.getParcelableExtra<Book>(idLivro) as Book
+        val emailUser: String = intent.getStringExtra(userEmail).toString()
+        val book: Book = intent.getParcelableExtra<Book>(idBook) as Book
 
-        bookDetailsConfig(binding, livro, emailUsuario)
+        bookDetailsConfig(binding, book, emailUser)
 
-        binding.btnVoltar.setOnClickListener {
+        binding.btnReturn.setOnClickListener {
             finish()
         }
 
         binding.btnAdd.setOnClickListener {
             lifecycleScope.launch(IO) {
-                val livroSalvo =
-                    viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
+                val savedBook =
+                    viewModel.fetchSavedBook(book, emailUser, this@BookDetailsActivity)
 
-                if (livroSalvo == null) {
-                    adicionarLivro(viewModel, livro, emailUsuario, binding)
-                }
+                withContext(Main) {
+                    if (savedBook == null) {
+                        addBook(viewModel, book, emailUser, binding)
+                    }
 
-                if (livroSalvo !== null) {
-                    withContext(Main) {
+                    if (savedBook !== null) {
                         toast("Este livro já foi adicionado")
                     }
                 }
             }
+
         }
     }
 
-    private suspend fun adicionarLivro(
+    private fun addBook(
         viewModel: BookDetailsViewModel,
-        livro: Book,
-        emailUsuario: String,
+        book: Book,
+        emailUser: String,
         binding: BookDetailsBinding
     ) {
-        viewModel.adicionarLivro(livro, emailUsuario, this@BookDetailsActivity)
-        withContext(Main) {
-            binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
-            exibirCaixaDialogo(emailUsuario)
-        }
+        viewModel.addBook(book, emailUser, this@BookDetailsActivity)
+        binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+        showDialogBox(emailUser)
     }
 
-    private fun exibirCaixaDialogo(emailUsuario: String) {
+    private fun showDialogBox(emailUser: String) {
         val dialog = Dialog(this)
         val bindingDialog = SavedBookDialogBinding.inflate(layoutInflater)
 
@@ -80,10 +79,10 @@ class BookDetailsActivity : UserActivity() {
         dialog.setContentView(bindingDialog.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnVoltarDialog = bindingDialog.btnVoltar
+        val btnReturnDialog = bindingDialog.btnReturn
         val btnBooklistDialog = bindingDialog.btnBooklist
 
-        btnVoltarDialog.setOnClickListener {
+        btnReturnDialog.setOnClickListener {
             dialog.dismiss()
             finish()
         }
@@ -91,40 +90,41 @@ class BookDetailsActivity : UserActivity() {
         btnBooklistDialog.setOnClickListener {
             dialog.dismiss()
             finish()
-            irPara(FavoritesActivity::class.java) {
-                putExtra(usuarioEmail, emailUsuario)
+            goTo(FavoritesActivity::class.java) {
+                putExtra(userEmail, emailUser)
             }
         }
         dialog.show()
 
-        bindingDialog.btnFechar.setOnClickListener {
+        bindingDialog.btnClose.setOnClickListener {
             dialog.dismiss()
         }
     }
 
     private fun bookDetailsConfig(
         binding: BookDetailsBinding,
-        livro: Book,
-        emailUsuario: String
+        book: Book,
+        emailUser: String
     ) {
-        binding.livroTitulo.text = livro.title
-        binding.livroDesc.text = livro.description
-        binding.livroImagem.loadImage(livro.image)
+        binding.bookTitle.text = book.title
+        binding.bookDesc.text = book.description
+        binding.bookImage.loadImage(book.image)
 
         when {
-            livro.author == "null" -> {
-                binding.livroAutor.text = ""
+            book.author == "null" -> {
+                binding.bookAuthor.text = ""
             }
 
-            livro.author != "null" -> {
-                binding.livroAutor.text = livro.author.toString()
+            book.author != "null" -> {
+                binding.bookAuthor.text = book.author.toString()
             }
         }
 
         lifecycleScope.launch(IO) {
-            val livroSalvo = viewModel.buscarLivroSalvo(livro, emailUsuario, this@BookDetailsActivity)
+            val savedBook =
+                viewModel.fetchSavedBook(book, emailUser, this@BookDetailsActivity)
 
-            if (livroSalvo !== null)
+            if (savedBook !== null)
                 binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
         }
     }

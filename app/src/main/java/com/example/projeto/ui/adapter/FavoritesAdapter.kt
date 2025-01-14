@@ -10,41 +10,41 @@ import com.example.projeto.model.SavedBook
 
 class FavoritesAdapter(
     private val context: Context,
-    livros: List<SavedBook?> = emptyList(),
-    var quandoClicado: (book: SavedBook) -> Unit = {}
+    books: List<SavedBook?> = emptyList(),
+    var whenItemIsClicked: (book: SavedBook) -> Unit = {}
 ) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
-    private val livros = livros.toMutableList()
+    private val books = books.toMutableList()
 
     class ViewHolder(
         private val binding: SearchItemBinding,
-        var quandoClicado: (book: SavedBook) -> Unit,
+        var whenItemIsClicked: (book: SavedBook) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var livro: SavedBook
+        private lateinit var book: SavedBook
 
         init {
             itemView.setOnClickListener {
-                if (::livro.isInitialized)
-                    quandoClicado(livro)
+                if (::book.isInitialized)
+                    whenItemIsClicked(book)
             }
         }
 
-        fun vincula(savedBook: SavedBook) {
-            this@ViewHolder.livro = savedBook
+        fun bind(savedBook: SavedBook) {
+            this@ViewHolder.book = savedBook
 
             binding.title.text = savedBook.title
             binding.image.loadImage(savedBook.image)
-            val autor = binding.writer
+            val author = binding.writer
             when {
                 savedBook.author == "null" ->
-                    autor.text = ""
+                    author.text = ""
 
                 savedBook.author?.isEmpty() == true ->
-                    autor.text = ""
+                    author.text = ""
 
                 savedBook.author?.isNotBlank() == true ->
-                    autor.text = savedBook.author
+                    author.text = savedBook.author
             }
         }
     }
@@ -54,27 +54,25 @@ class FavoritesAdapter(
             SearchItemBinding.inflate(
                 LayoutInflater.from(context), parent, false
             ),
-            quandoClicado
+            whenItemIsClicked
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val livro: SavedBook? = livros[position]
-        livro?.let {
-            if (livro.title.isNotBlank())
-                holder.vincula(it)
+        val book: SavedBook? = books[position]
+        book?.let {
+            if (book.title.isNotBlank())
+                holder.bind(it)
         }
     }
 
-    override fun getItemCount(): Int = livros.size
+    override fun getItemCount(): Int = books.size
 
-    fun atualizar(livrosSalvos: List<SavedBook>) {
-
+    fun update(livrosSalvos: List<SavedBook>) {
         val context = this@FavoritesAdapter
-        notifyItemRangeRemoved(0, context.livros.size)
-        context.livros.clear()
-        context.livros.addAll(livrosSalvos)
-        notifyItemInserted(context.livros.size)
-
+        notifyItemRangeRemoved(0, context.books.size)
+        context.books.clear()
+        context.books.addAll(livrosSalvos)
+        notifyItemInserted(context.books.size)
     }
 }

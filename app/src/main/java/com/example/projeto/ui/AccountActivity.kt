@@ -2,9 +2,9 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.irPara
-import com.example.projeto.contextExpresions.usuarioLogado
-import com.example.projeto.contextExpresions.usuarioEmail
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.AccountActivityBinding
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.filterNotNull
@@ -20,33 +20,39 @@ class AccountActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val emailUsuario = intent.getStringExtra(usuarioEmail)
-
         lifecycleScope.launch {
-            usuario.filterNotNull().collect {
-                binding.nomeUsuario.text = usuario.value?.name
-                binding.emailUsuario.text = usuario.value?.email
+            user.filterNotNull().collect {
+                val email = it.email
+                val username = it.name
+                binding.userName.text = username
+                binding.userEmail.text = email
             }
         }
 
         binding.btnLogout.setOnClickListener {
             lifecycleScope.launch(IO) {
-                removerUsuario()
-                irParaLogin()
+                removeUser()
+                goToLogin()
             }
         }
 
-        binding.btnVoltar.setOnClickListener {
-            irPara(MainActivity::class.java) {
-                usuarioLogado
+        binding.btnReturn.setOnClickListener {
+            goTo(MainActivity::class.java) {
+                loggedUser
             }
             finish()
         }
 
         binding.btnBooklist.setOnClickListener {
-            irPara(FavoritesActivity::class.java) {
-                putExtra(usuarioEmail, emailUsuario)
-                usuarioLogado
+            lifecycleScope.launch {
+                user.filterNotNull().collect {
+                    val email = it.email.toString()
+                    goTo(FavoritesActivity::class.java) {
+                        putExtra(userEmail, email)
+                        loggedUser
+                    }
+                }
+
             }
         }
     }

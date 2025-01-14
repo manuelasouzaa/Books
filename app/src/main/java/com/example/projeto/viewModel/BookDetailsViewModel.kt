@@ -2,35 +2,36 @@ package com.example.projeto.viewModel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.model.Book
 import com.example.projeto.model.SavedBook
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import java.util.UUID
 
-class BookDetailsViewModel: ViewModel() {
+class BookDetailsViewModel : ViewModel() {
 
-    suspend fun adicionarLivro(livro: Book, emailUsuario: String, context: Context) {
-        val livroParaSalvar =
-            SavedBook(
-                image = livro.image.toString(),
-                author = livro.author,
-                idBook = livro.id,
-                description = livro.description.toString(),
-                userEmail = emailUsuario,
-                id = UUID.randomUUID().toString(),
-                title = livro.title.toString()
-            )
+    fun addBook(book: Book, emailUser: String, context: Context) {
+        viewModelScope.launch(IO) {
+            val bookToSave =
+                SavedBook(
+                    image = book.image.toString(),
+                    author = book.author,
+                    idBook = book.id,
+                    description = book.description.toString(),
+                    userEmail = emailUser,
+                    id = UUID.randomUUID().toString(),
+                    title = book.title.toString()
+                )
 
-        val dao = LibraryDatabase.instance(context).savedBookDao()
-        withContext(IO) {
-            dao.salvarLivro(livroParaSalvar)
+            val dao = LibraryDatabase.instance(context).savedBookDao()
+            dao.saveBook(bookToSave)
         }
     }
 
-    fun buscarLivroSalvo(livro: Book, emailUsuario: String, context: Context): SavedBook? {
+    fun fetchSavedBook(book: Book, emailUser: String, context: Context): SavedBook? {
         val dao = LibraryDatabase.instance(context).savedBookDao()
-        return dao.buscarLivroSalvo(livro.id, emailUsuario)
+        return dao.fetchSavedBook(book.id, emailUser)
     }
 }

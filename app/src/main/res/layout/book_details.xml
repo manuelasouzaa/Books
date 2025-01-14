@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/livro_imagem"
+            android:id="@+id/book_image"
             android:layout_width="180dp"
             android:layout_height="240dp"
             android:layout_margin="40dp"
@@ -23,7 +23,7 @@
 
 
         <TextView
-            android:id="@+id/livro_titulo"
+            android:id="@+id/book_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -32,13 +32,13 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/livro_autor"
+            app:layout_constraintBottom_toTopOf="@id/book_author"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/livro_imagem" />
+            app:layout_constraintTop_toBottomOf="@id/book_image" />
 
         <TextView
-            android:id="@+id/livro_autor"
+            android:id="@+id/book_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -49,10 +49,10 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/livro_titulo" />
+            app:layout_constraintTop_toBottomOf="@id/book_title" />
 
         <TextView
-            android:id="@+id/livro_desc"
+            android:id="@+id/book_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -65,11 +65,11 @@
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/livro_autor"
+            app:layout_constraintTop_toBottomOf="@id/book_author"
             tools:text="@tools:sample/lorem/random" />
 
         <ImageButton
-            android:id="@+id/btn_voltar"
+            android:id="@+id/btn_return"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="15dp"
@@ -97,7 +97,7 @@
             android:layout_height="35dp"
             android:backgroundTint="@color/lighter_blue"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/livro_desc" />
+            app:layout_constraintTop_toBottomOf="@id/book_desc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

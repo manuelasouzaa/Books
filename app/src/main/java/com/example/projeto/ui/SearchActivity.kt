@@ -2,11 +2,11 @@ package com.example.projeto.ui
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projeto.contextExpresions.idLivro
-import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idBook
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.usuarioEmail
-import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.SearchActivityBinding
 import com.example.projeto.model.Book
 import com.example.projeto.ui.adapter.SearchAdapter
@@ -25,12 +25,12 @@ class SearchActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val email = intent.getStringExtra(usuarioEmail)
+        val email = intent.getStringExtra(userEmail).toString()
         val bookList: List<Book>? = intent.getSerializableExtra("booklist") as List<Book>?
 
-        binding.btnVoltar.setOnClickListener {
-            irPara(MainActivity::class.java) {
-                usuarioLogado
+        binding.btnReturn.setOnClickListener {
+            goTo(MainActivity::class.java) {
+                loggedUser
             }
         }
 
@@ -40,7 +40,7 @@ class SearchActivity : UserActivity() {
 
             bookList.isNotEmpty() -> {
                 recyclerViewConfig(email.toString())
-                adapter.atualizar(bookList)
+                adapter.update(bookList)
             }
         }
     }
@@ -49,11 +49,11 @@ class SearchActivity : UserActivity() {
         val recycler = binding.recycler
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
-        adapter.quandoClicado = { book ->
-            irPara(BookDetailsActivity::class.java) {
-                putExtra(usuarioEmail, email)
-                putExtra(idLivro, book)
-                usuarioLogado
+        adapter.whenItemIsClicked = { book ->
+            goTo(BookDetailsActivity::class.java) {
+                putExtra(userEmail, email)
+                putExtra(idBook, book)
+                loggedUser
             }
         }
     }

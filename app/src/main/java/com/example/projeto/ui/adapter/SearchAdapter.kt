@@ -13,41 +13,41 @@ import kotlinx.coroutines.launch
 
 class SearchAdapter(
     private val context: Context,
-    livros: List<Book?> = emptyList(),
-    var quandoClicado: (book: Book) -> Unit = {}
+    books: List<Book?> = emptyList(),
+    var whenItemIsClicked: (book: Book) -> Unit = {}
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-    private val livros = livros.toMutableList()
+    private val books = books.toMutableList()
 
     class ViewHolder(
         private val binding: SearchItemBinding,
-        var quandoClicado: (book: Book) -> Unit
+        var whenItemIsClicked: (book: Book) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var livro: Book
+        private lateinit var book: Book
 
         init {
             itemView.setOnClickListener {
-                if (::livro.isInitialized)
-                    quandoClicado(livro)
+                if (::book.isInitialized)
+                    whenItemIsClicked(book)
             }
         }
 
-        fun vincula(book: Book) {
-            this@ViewHolder.livro = book
+        fun bind(book: Book) {
+            this@ViewHolder.book = book
 
-            binding.title.text = book.title?.toString()
+            binding.title.text = book.title
             binding.image.loadImage(book.image)
-            val autor = binding.writer
+            val author = binding.writer
             when {
                 book.author == "null" ->
-                    autor.text = ""
+                    author.text = ""
 
                 book.author.isNullOrEmpty() ->
-                    autor.text = ""
+                    author.text = ""
 
                 book.author.isNotBlank() ->
-                    autor.text = book.author
+                    author.text = book.author
             }
         }
     }
@@ -57,27 +57,27 @@ class SearchAdapter(
             SearchItemBinding.inflate(
                 LayoutInflater.from(context), parent, false
             ),
-            quandoClicado
+            whenItemIsClicked
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val livro: Book? = livros[position]
-        livro?.let {
-            if (livro.title?.toString() !== "")
-                holder.vincula(it)
+        val book: Book? = books[position]
+        book?.let {
+            if (book.title !== "")
+                holder.bind(it)
         }
     }
 
-    override fun getItemCount(): Int = livros.size
+    override fun getItemCount(): Int = books.size
 
-    fun atualizar(livros: List<Book>) {
+    fun update(books: List<Book>) {
         CoroutineScope(IO).launch {
             val context = this@SearchAdapter
-            notifyItemRangeRemoved(0, context.livros.size)
-            context.livros.clear()
-            context.livros.addAll(livros.requireNoNulls())
-            notifyItemInserted(context.livros.size)
+            notifyItemRangeRemoved(0, context.books.size)
+            context.books.clear()
+            context.books.addAll(books.requireNoNulls())
+            notifyItemInserted(context.books.size)
         }
     }
 }

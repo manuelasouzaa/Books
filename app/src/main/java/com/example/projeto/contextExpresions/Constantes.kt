@@ -1,5 +1,5 @@
 package com.example.projeto.contextExpresions
 
-const val usuarioEmail: String = "USER_EMAIL"
+const val userEmail: String = "USER_EMAIL"
 
-const val idLivro: String = "BOOK_ID"
+const val idBook: String = "BOOK_ID"

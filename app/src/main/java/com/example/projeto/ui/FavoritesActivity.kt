@@ -5,10 +5,10 @@ import android.view.View.GONE
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.projeto.contextExpresions.idLivro
-import com.example.projeto.contextExpresions.irPara
-import com.example.projeto.contextExpresions.usuarioLogado
-import com.example.projeto.contextExpresions.usuarioEmail
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idBook
+import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.FavoritesActivityBinding
 import com.example.projeto.ui.adapter.FavoritesAdapter
@@ -34,43 +34,42 @@ class FavoritesActivity : UserActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        val emailUser = intent.getStringExtra(userEmail).toString()
+        verifyList(emailUser)
 
-        val emailUsuario = intent.getStringExtra(usuarioEmail).toString()
-        verificarLista(emailUsuario)
-
-        binding.btnVoltar.setOnClickListener {
+        binding.btnReturn.setOnClickListener {
             finish()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        val emailUsuario = intent.getStringExtra(usuarioEmail).toString()
-        verificarLista(emailUsuario)
+        val emailUser = intent.getStringExtra(userEmail).toString()
+        verifyList(emailUser)
     }
 
-    private fun verificarLista(
-        emailUsuario: String
+    private fun verifyList(
+        emailUser: String
     ) {
         val recycler = binding.recycler
 
         lifecycleScope.launch(IO) {
-            val livrosSalvos = dao.exibirLivrosSalvos(emailUsuario)
+            val savedBooks = dao.showSavedBooks(emailUser)
 
             withContext(Main) {
 
-                if (livrosSalvos != null) {
-                    recyclerViewConfig(emailUsuario, recycler)
-                    adapter.atualizar(livrosSalvos)
-                    val quantidadeLivros = adapter.itemCount
+                if (savedBooks != null) {
+                    recyclerViewConfig(emailUser, recycler)
+                    adapter.update(savedBooks)
+                    val booksQuantity = adapter.itemCount
 
-                    if (quantidadeLivros == 1)
+                    if (booksQuantity == 1)
                         binding.bookQuantity.text = "1 livro adicionado"
-                    if (quantidadeLivros > 1)
-                        binding.bookQuantity.text = "$quantidadeLivros livros adicionados"
+                    if (booksQuantity > 1)
+                        binding.bookQuantity.text = "$booksQuantity livros adicionados"
                 }
 
-                if (livrosSalvos.isNullOrEmpty()) {
+                if (savedBooks.isNullOrEmpty()) {
                     binding.bookQuantity.text = "Nenhum livro adicionado"
                     recycler.visibility = GONE
                 }
@@ -81,11 +80,11 @@ class FavoritesActivity : UserActivity() {
     private fun recyclerViewConfig(emailUser: String, recycler: RecyclerView) {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
-        adapter.quandoClicado = { book ->
-            irPara(SavedBookActivity::class.java) {
-                putExtra(usuarioEmail, emailUser)
-                putExtra(idLivro, book)
-                usuarioLogado
+        adapter.whenItemIsClicked = { book ->
+            goTo(SavedBookActivity::class.java) {
+                putExtra(userEmail, emailUser)
+                putExtra(idBook, book)
+                loggedUser
             }
             finish()
         }

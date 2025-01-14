@@ -3,8 +3,8 @@ package com.example.projeto.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.irPara
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.CadastroActivityBinding
 import com.example.projeto.model.User
@@ -30,42 +30,42 @@ class CadastroActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             lifecycleScope.launch(IO) {
-                criarUsuario()
+                createUser()
             }
         }
 
         binding.link.setOnClickListener {
-            irPara(LoginActivity::class.java)
+            goTo(LoginActivity::class.java)
             finish()
         }
     }
 
-    private fun criarUsuario(): User {
-        val email = binding.email.text.toString()
-        val nome = binding.nomeUsuario.text.toString()
-        val senha = binding.senha.text.toString()
+    private fun createUser(): User {
+        val email = binding.userEmail.text.toString()
+        val name = binding.userName.text.toString()
+        val password = binding.password.text.toString()
 
-        val novoUsuario = User(
+        val newUser = User(
             email = email,
-            name = nome,
-            password = senha
+            name = name,
+            password = password
         )
 
-        if (email == "" || senha == "")
+        if (email == "" || password == "")
             lifecycleScope.launch(Main) {
                 toast("Preencha todos os campos")
             }
 
-        dao.salva(novoUsuario)
+        dao.save(newUser)
 
         lifecycleScope.launch(Main) {
             toast("Cadastro realizado com sucesso!")
-            irPara(LoginActivity::class.java) {
-                novoUsuario
+            goTo(LoginActivity::class.java) {
+                newUser
             }
             finish()
 
         }
-        return novoUsuario
+        return newUser
     }
 }

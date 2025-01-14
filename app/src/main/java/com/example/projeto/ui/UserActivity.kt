@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.irPara
-import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.contextExpresions.dataStore
-import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.model.User
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ abstract class UserActivity : AppCompatActivity() {
     }
 
     private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
-    val usuario: StateFlow<User?> = _user
+    val user: StateFlow<User?> = _user
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,28 +37,28 @@ abstract class UserActivity : AppCompatActivity() {
 
     private suspend fun verifyLoggedUser() {
         dataStore.data.first().let { preferences ->
-            preferences[usuarioLogado]?.let { email ->
+            preferences[loggedUser]?.let { email ->
                 fetchUser(email)
-            } ?: irParaLogin()
+            } ?: goToLogin()
         }
     }
 
-    protected fun irParaLogin() {
-        irPara(LoginActivity::class.java) {
+    protected fun goToLogin() {
+        goTo(LoginActivity::class.java) {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         finish()
     }
 
-    protected suspend fun fetchUser(email: String): User? {
+    private suspend fun fetchUser(email: String): User? {
         return userDao.fetchUserByEmail(email).firstOrNull().also {
             _user.value = it
         }
     }
 
-    protected suspend fun removerUsuario() {
+    protected suspend fun removeUser() {
         dataStore.edit {
-            it.remove(usuarioLogado)
+            it.remove(loggedUser)
         }
     }
 }

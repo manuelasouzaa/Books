@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.dataStore
-import com.example.projeto.contextExpresions.irPara
-import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.LoginActivityBinding
@@ -32,29 +32,29 @@ class LoginActivity : AppCompatActivity() {
         btnEnterConfig()
 
         binding.link.setOnClickListener {
-            irPara(CadastroActivity::class.java)
+            goTo(CadastroActivity::class.java)
             finish()
         }
     }
 
     private fun btnEnterConfig() {
         binding.btnEnter.setOnClickListener {
-            val email = binding.email.text.toString()
-            val senha = binding.senha.text.toString()
-            autenticar(email, senha)
+            val email = binding.userEmail.text.toString()
+            val password = binding.password.text.toString()
+            authenticate(email, password)
         }
     }
 
-    private fun autenticar(email: String, password: String) {
+    private fun authenticate(email: String, password: String) {
         lifecycleScope.launch(IO) {
-            dao.buscaUsuario(email, password)?.let { user ->
+            dao.searchUsers(email, password)?.let { user ->
                 launch {
                     dataStore.edit { preferences ->
-                        preferences[usuarioLogado] = user.email
+                        preferences[loggedUser] = user.email
                     }
                 }
-                irPara(MainActivity::class.java) {
-                    usuarioLogado
+                goTo(MainActivity::class.java) {
+                    loggedUser
                 }
                 finish()
             } ?: run {

@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
-fun Context.irPara(clazz: Class<*>, intent: Intent.() -> Unit = {}) {
-     (Intent(this, clazz)).apply{
+fun Context.goTo(clazz: Class<*>, intent: Intent.() -> Unit = {}) {
+     Intent(this, clazz).apply{
         intent()
         startActivity(this)
     }

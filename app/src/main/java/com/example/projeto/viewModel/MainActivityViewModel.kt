@@ -58,13 +58,13 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-    private fun verifyAnswer(lista: GoogleApiAnswer): List<Book?>? {
+    private fun verifyAnswer(list: GoogleApiAnswer): List<Book?>? {
         return when {
-            lista.totalItems == 0 ->
+            list.totalItems == 0 ->
                 null
 
-            lista.totalItems > 0 ->
-                getList(lista)
+            list.totalItems > 0 ->
+                getList(list)
 
             else ->
                 null

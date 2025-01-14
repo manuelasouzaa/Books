@@ -6,11 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.idLivro
-import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.idBook
+import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.usuarioEmail
-import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.userEmail
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.DeleteBookDialogBinding
 import com.example.projeto.databinding.SavedBookActivityBinding
@@ -32,48 +32,48 @@ class SavedBookActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val livroFavorito = intent.getParcelableExtra<SavedBook>(idLivro) as SavedBook
-        val emailUsuario = intent.getStringExtra(usuarioEmail)
+        val savedBook = intent.getParcelableExtra<SavedBook>(idBook) as SavedBook
+        val emailUser = intent.getStringExtra(userEmail)
 
-        savedBookConfig(livroFavorito)
+        savedBookConfig(savedBook)
 
-        binding.btnVoltar.setOnClickListener {
-            irParaBooklist(emailUsuario)
+        binding.btnReturn.setOnClickListener {
+            goToBooklist(emailUser)
         }
 
-        binding.btnRemover.setOnClickListener {
-            exibirCaixaDialogo(livroFavorito, emailUsuario)
+        binding.btnRemove.setOnClickListener {
+            showDialogBox(savedBook, emailUser)
         }
     }
 
-    private fun savedBookConfig(livroFavorito: SavedBook) {
-        binding.livroTitulo.text = livroFavorito.title
-        binding.livroImagem.loadImage(livroFavorito.image)
+    private fun savedBookConfig(savedBook: SavedBook) {
+        binding.bookTitle.text = savedBook.title
+        binding.bookImage.loadImage(savedBook.image)
 
-        if (livroFavorito.author.isNullOrEmpty())
-            binding.livroAutor.text = ""
-        if (livroFavorito.author == "null")
-            binding.livroAutor.text = ""
-        if (livroFavorito.author != "null")
-            binding.livroAutor.text = livroFavorito.author
+        if (savedBook.author.isNullOrEmpty())
+            binding.bookAuthor.text = ""
+        if (savedBook.author == "null")
+            binding.bookAuthor.text = ""
+        if (savedBook.author != "null")
+            binding.bookAuthor.text = savedBook.author
 
-        if (livroFavorito.description.isNullOrEmpty())
-            binding.livroDesc.text = ""
-        if (livroFavorito.description == "null")
-            binding.livroDesc.text = ""
-        if (livroFavorito.description != "null")
-            binding.livroDesc.text = livroFavorito.description
+        if (savedBook.description.isNullOrEmpty())
+            binding.bookDesc.text = ""
+        if (savedBook.description == "null")
+            binding.bookDesc.text = ""
+        if (savedBook.description != "null")
+            binding.bookDesc.text = savedBook.description
     }
 
-    private fun irParaBooklist(emailUsuario: String?) {
-        irPara(FavoritesActivity::class.java) {
-            putExtra(usuarioEmail, emailUsuario)
-            usuarioLogado
+    private fun goToBooklist(emailUser: String?) {
+        goTo(FavoritesActivity::class.java) {
+            putExtra(userEmail, emailUser)
+            loggedUser
         }
         finish()
     }
 
-    private fun exibirCaixaDialogo(livroSalvo: SavedBook, emailUsuario: String?) {
+    private fun showDialogBox(savedBook: SavedBook, emailUser: String?) {
         val dialog = Dialog(this)
         val bindingDialog = DeleteBookDialogBinding.inflate(layoutInflater)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -81,28 +81,28 @@ class SavedBookActivity : UserActivity() {
         dialog.setContentView(bindingDialog.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnSim = bindingDialog.btnSim
-        val btnNao = bindingDialog.btnNao
+        val btnYes = bindingDialog.btnYes
+        val btnNo = bindingDialog.btnNo
 
-        btnNao.setOnClickListener {
+        btnNo.setOnClickListener {
             dialog.dismiss()
         }
 
-        btnSim.setOnClickListener {
+        btnYes.setOnClickListener {
             dialog.dismiss()
-            removerLivro(livroSalvo, emailUsuario)
+            removeBook(savedBook, emailUser)
         }
         dialog.show()
     }
 
-    private fun removerLivro(
-        livroSalvo: SavedBook,
-        emailUsuario: String?
+    private fun removeBook(
+        savedBook: SavedBook,
+        emailUser: String?
     ) {
         lifecycleScope.launch(IO) {
-            dao.removerLivroSalvo(livroSalvo)
+            dao.removeSavedBook(savedBook)
             finish()
-            irParaBooklist(emailUsuario)
+            goToBooklist(emailUser)
         }
     }
 }

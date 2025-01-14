@@ -24,8 +24,6 @@ data class SavedBook (
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "title")
-    val title: String,
-
-
+    val title: String
 
 ): Parcelable

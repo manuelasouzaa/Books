@@ -36,11 +36,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/email"
+            app:layout_constraintBottom_toTopOf="@id/user_email"
             app:layout_constraintTop_toBottomOf="@id/titulo" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/user_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -68,11 +68,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/senha"
-            app:layout_constraintTop_toBottomOf="@id/email" />
+            app:layout_constraintBottom_toTopOf="@id/password"
+            app:layout_constraintTop_toBottomOf="@id/user_email" />
 
         <EditText
-            android:id="@+id/senha"
+            android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -100,7 +100,7 @@
             android:textColor="@color/petroleum_blue"
             android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@id/btn_enter"
-            app:layout_constraintTop_toBottomOf="@id/senha" />
+            app:layout_constraintTop_toBottomOf="@id/password" />
 
         <Button
             android:id="@+id/btn_enter"

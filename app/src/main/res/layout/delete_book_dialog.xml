@@ -44,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@id/imagem" />
 
         <Button
-            android:id="@+id/btn_sim"
+            android:id="@+id/btn_yes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -56,12 +56,12 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_nao"
+            app:layout_constraintEnd_toStartOf="@id/btn_no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/texto" />
 
         <Button
-            android:id="@+id/btn_nao"
+            android:id="@+id/btn_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -70,10 +70,10 @@
             android:text="Não"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_sim"
+            app:layout_constraintBottom_toBottomOf="@id/btn_yes"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_sim"
-            app:layout_constraintTop_toTopOf="@id/btn_sim" />
+            app:layout_constraintStart_toEndOf="@id/btn_yes"
+            app:layout_constraintTop_toTopOf="@id/btn_yes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

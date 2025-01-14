@@ -1,16 +1,15 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.irPara
+import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.usuarioEmail
-import com.example.projeto.contextExpresions.usuarioLogado
+import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.ActivityMainBinding
 import com.example.projeto.viewModel.MainActivityViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -34,60 +33,70 @@ class MainActivity : UserActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-        val email = usuario.value?.email.toString()
 
-        binding.btnBuscar.setOnClickListener {
-            binding.loading.visibility = VISIBLE
-            binding.btnBuscar.visibility = GONE
+        lifecycleScope.launch(IO) {
+            user.filterNotNull().collect {
+                val email = user.value?.email.toString()
 
-            val busca = binding.editText.text.toString()
+                withContext(Main){
+                    binding.btnSearch.setOnClickListener {
+                        search(email)
+                    }
+                    binding.btnAccount.setOnClickListener {
+                        goToActivity(AccountActivity::class.java, email)
+                        finish()
+                    }
 
+                    binding.btnBooklist.setOnClickListener {
+                        goToActivity(FavoritesActivity::class.java, email)
+                    }
+                }
+            }
+        }
+    }
 
-            try {
-                lifecycleScope.launch {
-                    viewModel.searchBook(busca)
+    private fun search(email: String) {
+        binding.loading.visibility = VISIBLE
+        binding.btnSearch.visibility = GONE
 
-                    viewModel.message.collect {
-                        if (it == "Livro não encontrado")
-                            erroAoPesquisar()
+        val search = binding.editText.text.toString()
 
-                        if (it == "Livros encontrados") {
-                            viewModel.booklist.collect {
-                                irPara(SearchActivity::class.java) {
-                                    putExtra("booklist", it as Serializable)
-                                    putExtra(usuarioEmail, email)
-                                }
+        try {
+            lifecycleScope.launch {
+                viewModel.searchBook(search)
+
+                viewModel.message.collect {
+                    if (it == "Livro não encontrado")
+                        errorInSearch()
+
+                    if (it == "Livros encontrados") {
+                        viewModel.booklist.collect {
+                            goTo(SearchActivity::class.java) {
+                                putExtra("booklist", it as Serializable)
+                                putExtra(userEmail, email)
                             }
                         }
                     }
                 }
-            } catch (e: Exception) {
-                Log.e("erro", "Erro ao pesquisar", e)
-                erroAoPesquisar()
             }
-            binding.editText.text.clear()
+        } catch (e: Exception) {
+            errorInSearch()
         }
+        binding.editText.text.clear()
+    }
 
-        binding.btnConta.setOnClickListener {
-            irParaActivity(AccountActivity::class.java, email)
-            finish()
-        }
-
-        binding.btnBooklist.setOnClickListener {
-            irParaActivity(FavoritesActivity::class.java, email)
+    private fun errorInSearch() {
+        lifecycleScope.launch(Main) {
+            toast("Erro ao pesquisar")
+            binding.loading.visibility = GONE
+            binding.btnSearch.visibility = VISIBLE
         }
     }
 
-    private fun erroAoPesquisar() {
-        toast("Erro ao pesquisar")
-        binding.loading.visibility = GONE
-        binding.btnBuscar.visibility = VISIBLE
-    }
-
-    private fun irParaActivity(activity: Class<*>, email: String) {
-        irPara(activity) {
-            putExtra(usuarioEmail, email)
-            usuarioLogado
+    private fun goToActivity(activity: Class<*>, email: String) {
+        goTo(activity) {
+            putExtra(userEmail, email)
+            loggedUser
         }
     }
 }

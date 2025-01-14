@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
 
     @Insert (onConflict = REPLACE)
-    fun salva(user: User)
+    fun save(user: User)
 
     @Query ("SELECT * FROM User WHERE email = :email AND password = :senha")
-    fun buscaUsuario(email: String, senha: String): User?
+    fun searchUsers(email: String, senha: String): User?
 
     @Query ("SELECT * FROM User WHERE email = :email")
     fun fetchUserByEmail(email: String): Flow<User>
