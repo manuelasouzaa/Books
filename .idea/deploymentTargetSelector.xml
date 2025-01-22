@@ -4,16 +4,28 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-01-10T20:57:05.748512800Z">
+        <DropdownSelection timestamp="2025-01-21T16:23:49.390188900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\estagio.fullarm03\.android\avd\Pixel_7a_API_35.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\estagio.fullarm03\.android\avd\Pixel_8a_API_35.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="ExampleInstrumentedTest">
+      <SelectionState runConfigName="happyEndingJourney()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="accountActivityShowsUsernameAndEmail()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="signUpWithAllNeededData() (1)">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testingAllTests()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="searchABookThatDoesNotExist()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -36,11 +36,11 @@ class BookDetailsActivity : UserActivity() {
 
         bookDetailsConfig(binding, book, emailUser)
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnReturnBookDetailsActivity.setOnClickListener {
             finish()
         }
 
-        binding.btnAdd.setOnClickListener {
+        binding.btnAddBookDetails.setOnClickListener {
             lifecycleScope.launch(IO) {
                 val savedBook =
                     viewModel.fetchSavedBook(book, emailUser, this@BookDetailsActivity)
@@ -55,7 +55,6 @@ class BookDetailsActivity : UserActivity() {
                     }
                 }
             }
-
         }
     }
 
@@ -66,7 +65,7 @@ class BookDetailsActivity : UserActivity() {
         binding: BookDetailsBinding
     ) {
         viewModel.addBook(book, emailUser, this@BookDetailsActivity)
-        binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+        binding.btnAddBookDetails.setImageResource(R.drawable.ic_bookmark_added)
         showDialogBox(emailUser)
     }
 
@@ -79,8 +78,8 @@ class BookDetailsActivity : UserActivity() {
         dialog.setContentView(bindingDialog.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnReturnDialog = bindingDialog.btnReturn
-        val btnBooklistDialog = bindingDialog.btnBooklist
+        val btnReturnDialog = bindingDialog.btnReturnSavedBookDialog
+        val btnBooklistDialog = bindingDialog.btnBooklistSavedBookDialog
 
         btnReturnDialog.setOnClickListener {
             dialog.dismiss()
@@ -96,7 +95,7 @@ class BookDetailsActivity : UserActivity() {
         }
         dialog.show()
 
-        bindingDialog.btnClose.setOnClickListener {
+        bindingDialog.btnCloseSavedBookDialog.setOnClickListener {
             dialog.dismiss()
         }
     }
@@ -106,17 +105,17 @@ class BookDetailsActivity : UserActivity() {
         book: Book,
         emailUser: String
     ) {
-        binding.bookTitle.text = book.title
-        binding.bookDesc.text = book.description
-        binding.bookImage.loadImage(book.image)
+        binding.bookTitleBookDetailsActivity.text = book.title
+        binding.bookDescBookDetailsActivity.text = book.description
+        binding.bookImageBookDetailsActivity.loadImage(book.image)
 
         when {
             book.author == "null" -> {
-                binding.bookAuthor.text = ""
+                binding.bookAuthorBookDetailsActivity.text = ""
             }
 
             book.author != "null" -> {
-                binding.bookAuthor.text = book.author.toString()
+                binding.bookAuthorBookDetailsActivity.text = book.author.toString()
             }
         }
 
@@ -125,7 +124,7 @@ class BookDetailsActivity : UserActivity() {
                 viewModel.fetchSavedBook(book, emailUser, this@BookDetailsActivity)
 
             if (savedBook !== null)
-                binding.btnAdd.setImageResource(R.drawable.ic_bookmark_added)
+                binding.btnAddBookDetails.setImageResource(R.drawable.ic_bookmark_added)
         }
     }
 }

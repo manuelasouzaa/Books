@@ -36,9 +36,9 @@ class SearchAdapter(
         fun bind(book: Book) {
             this@ViewHolder.book = book
 
-            binding.title.text = book.title
-            binding.image.loadImage(book.image)
-            val author = binding.writer
+            binding.titleSearchItem.text = book.title
+            binding.imageSearchItem.loadImage(book.image)
+            val author = binding.writerSearchItem
             when {
                 book.author == "null" ->
                     author.text = ""

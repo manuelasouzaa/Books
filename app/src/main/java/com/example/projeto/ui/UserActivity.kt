@@ -8,14 +8,17 @@ import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.dataStore
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loggedUser
+import com.example.projeto.contextExpresions.toast
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.model.User
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class UserActivity : AppCompatActivity() {
 
@@ -39,7 +42,9 @@ abstract class UserActivity : AppCompatActivity() {
         dataStore.data.first().let { preferences ->
             preferences[loggedUser]?.let { email ->
                 fetchUser(email)
-            } ?: goToLogin()
+            } ?: withContext(Main) {
+                goToLogin()
+            }
         }
     }
 

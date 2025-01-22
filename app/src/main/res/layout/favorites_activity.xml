@@ -8,13 +8,13 @@
     android:background="@color/dark_blue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint"
+        android:id="@+id/constraint_favorites_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_return"
+            android:id="@+id/btn_return_favorites_activity"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
@@ -23,12 +23,12 @@
             android:padding="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_return"
-            app:layout_constraintBottom_toTopOf="@id/book_quantity"
+            app:layout_constraintBottom_toTopOf="@id/book_quantity_favorites_activity"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/book_quantity"
+            android:id="@+id/book_quantity_favorites_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -36,13 +36,13 @@
             android:textAlignment="center"
             android:textColor="@color/lighter_blue"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/recycler"
+            app:layout_constraintBottom_toTopOf="@id/recycler_favorites_activity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titulo" />
+            app:layout_constraintTop_toBottomOf="@id/titulo_favorites_activity" />
 
         <TextView
-            android:id="@+id/titulo"
+            android:id="@+id/titulo_favorites_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/peralta"
@@ -50,27 +50,27 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_return"
+            app:layout_constraintBottom_toBottomOf="@id/btn_return_favorites_activity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_return" />
+            app:layout_constraintTop_toTopOf="@id/btn_return_favorites_activity" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+            android:id="@+id/recycler_favorites_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/book_quantity"
+            app:layout_constraintTop_toBottomOf="@id/book_quantity_favorites_activity"
             tools:listitem="@layout/search_item" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:backgroundTint="@color/dark_blue"
-            app:layout_constraintBottom_toBottomOf="@id/constraint"
-            app:layout_constraintTop_toBottomOf="@id/recycler" />
+            app:layout_constraintBottom_toBottomOf="@id/constraint_favorites_activity"
+            app:layout_constraintTop_toBottomOf="@id/recycler_favorites_activity" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

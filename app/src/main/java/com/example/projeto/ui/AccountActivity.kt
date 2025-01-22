@@ -24,8 +24,8 @@ class AccountActivity : UserActivity() {
             user.filterNotNull().collect {
                 val email = it.email
                 val username = it.name
-                binding.userName.text = username
-                binding.userEmail.text = email
+                binding.usernameAccountActivity.text = username
+                binding.userEmailAccountActivity.text = email
             }
         }
 
@@ -36,14 +36,14 @@ class AccountActivity : UserActivity() {
             }
         }
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnReturnAccountActivity.setOnClickListener {
             goTo(MainActivity::class.java) {
                 loggedUser
             }
             finish()
         }
 
-        binding.btnBooklist.setOnClickListener {
+        binding.btnBooklistAccountActivity.setOnClickListener {
             lifecycleScope.launch {
                 user.filterNotNull().collect {
                     val email = it.email.toString()

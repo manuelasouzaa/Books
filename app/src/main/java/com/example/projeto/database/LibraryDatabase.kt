@@ -29,7 +29,7 @@ abstract class LibraryDatabase: RoomDatabase() {
             return db?: Room.databaseBuilder(
                 context,
                 LibraryDatabase::class.java,
-                "db"
+                "BookScape.db"
             ).addMigrations(Migration_1_2, Migration_2_3, Migration_3_4, Migration_4_5, Migration_5_6)
                 .build()
         }

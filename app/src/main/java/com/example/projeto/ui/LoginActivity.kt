@@ -1,6 +1,7 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.databinding.LoginActivityBinding
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -31,16 +33,15 @@ class LoginActivity : AppCompatActivity() {
 
         btnEnterConfig()
 
-        binding.link.setOnClickListener {
+        binding.linkLoginActivity.setOnClickListener {
             goTo(CadastroActivity::class.java)
-            finish()
         }
     }
 
     private fun btnEnterConfig() {
-        binding.btnEnter.setOnClickListener {
-            val email = binding.userEmail.text.toString()
-            val password = binding.password.text.toString()
+        binding.btnEnterLoginActivity.setOnClickListener {
+            val email = binding.userEmailLoginActivity.text.toString()
+            val password = binding.passwordLoginActivity.text.toString()
             authenticate(email, password)
         }
     }
@@ -52,11 +53,14 @@ class LoginActivity : AppCompatActivity() {
                     dataStore.edit { preferences ->
                         preferences[loggedUser] = user.email
                     }
+
+                    withContext(Main) {
+                        toast("Login efetuado")
+                        goTo(MainActivity::class.java) {
+                            loggedUser
+                        }
+                    }
                 }
-                goTo(MainActivity::class.java) {
-                    loggedUser
-                }
-                finish()
             } ?: run {
                 withContext(Main) {
                     toast("Usuário não encontrado. Faça o cadastro")

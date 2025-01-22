@@ -26,35 +26,43 @@ class CadastroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val btn = binding.btnEnter
+        val btn = binding.btnEnterCadastroActivity
 
         btn.setOnClickListener {
+            val name = binding.usernameCadastroActivity.text.toString()
+            val email = binding.userEmailCadastroActivity.text.toString()
+            val password = binding.passwordCadastroActivity.text.toString()
             lifecycleScope.launch(IO) {
-                createUser()
+                verifyData(email, name, password)
             }
         }
 
-        binding.link.setOnClickListener {
+        binding.linkCadastroActivity.setOnClickListener {
             goTo(LoginActivity::class.java)
             finish()
         }
     }
 
-    private fun createUser(): User {
-        val email = binding.userEmail.text.toString()
-        val name = binding.userName.text.toString()
-        val password = binding.password.text.toString()
+    private fun verifyData(email: String, name: String, password: String) {
+        when {
+            email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty() -> {
+                createUser(email, name, password)
+            }
 
+            email == "" || password == "" || name == "" -> {
+                lifecycleScope.launch(Main) {
+                    toast("Preencha todos os campos")
+                }
+            }
+        }
+    }
+
+    private fun createUser(email: String, name: String, password: String): User {
         val newUser = User(
             email = email,
             name = name,
             password = password
         )
-
-        if (email == "" || password == "")
-            lifecycleScope.launch(Main) {
-                toast("Preencha todos os campos")
-            }
 
         dao.save(newUser)
 
@@ -64,7 +72,6 @@ class CadastroActivity : AppCompatActivity() {
                 newUser
             }
             finish()
-
         }
         return newUser
     }

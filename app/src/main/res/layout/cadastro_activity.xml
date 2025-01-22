@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/titulo"
+            android:id="@+id/titulo_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -22,11 +22,11 @@
             android:textAlignment="center"
             android:textColor="@color/petroleum_blue"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@id/username_title"
+            app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/username_title"
+            android:id="@+id/username_title_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -35,10 +35,10 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/user_name" />
+            app:layout_constraintBottom_toTopOf="@id/username_cadastro_activity" />
 
         <EditText
-            android:id="@+id/user_name"
+            android:id="@+id/username_cadastro_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -49,13 +49,12 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/username_title"
+            app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="email@gmail.com" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/email_titulo"
+            android:id="@+id/email_titulo_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -65,11 +64,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/user_email"
-            app:layout_constraintTop_toBottomOf="@id/user_name" />
+            app:layout_constraintBottom_toTopOf="@id/user_email_cadastro_activity"
+            app:layout_constraintTop_toBottomOf="@id/username_cadastro_activity" />
 
         <EditText
-            android:id="@+id/user_email"
+            android:id="@+id/user_email_cadastro_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -80,14 +79,13 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/senha_titulo"
+            app:layout_constraintBottom_toTopOf="@id/senha_titulo_cadastro_activity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_titulo"
-            tools:text="email@gmail.com" />
+            app:layout_constraintTop_toBottomOf="@id/email_titulo_cadastro_activity" />
 
         <TextView
-            android:id="@+id/senha_titulo"
+            android:id="@+id/senha_titulo_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -97,11 +95,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/password"
-            app:layout_constraintTop_toBottomOf="@id/user_email" />
+            app:layout_constraintBottom_toTopOf="@id/password_cadastro_activity"
+            app:layout_constraintTop_toBottomOf="@id/user_email_cadastro_activity" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/password_cadastro_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -115,11 +113,10 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/senha_titulo"
-            tools:text="senha123" />
+            app:layout_constraintTop_toBottomOf="@id/senha_titulo_cadastro_activity" />
 
         <TextView
-            android:id="@+id/link"
+            android:id="@+id/link_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -129,11 +126,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_enter"
-            app:layout_constraintTop_toBottomOf="@id/password" />
+            app:layout_constraintBottom_toTopOf="@id/btn_enter_cadastro_activity"
+            app:layout_constraintTop_toBottomOf="@id/password_cadastro_activity" />
 
         <Button
-            android:id="@+id/btn_enter"
+            android:id="@+id/btn_enter_cadastro_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
@@ -146,11 +143,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password" />
+            app:layout_constraintTop_toBottomOf="@id/password_cadastro_activity" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/logo_cadastro_activity"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="50dp"

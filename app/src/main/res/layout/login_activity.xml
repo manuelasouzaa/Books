@@ -7,14 +7,14 @@
     android:background="@color/lighter_blue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint"
+        android:id="@+id/constraint_login_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/titulo"
+            android:id="@+id/titulo_login_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -23,24 +23,23 @@
             android:textAlignment="center"
             android:textColor="@color/petroleum_blue"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@id/email_titulo"
+            app:layout_constraintBottom_toTopOf="@id/email_titulo_login_activity"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/email_titulo"
+            android:id="@+id/email_titulo_login_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/alata"
             android:text="E-mail:"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/user_email"
-            app:layout_constraintTop_toBottomOf="@id/titulo" />
+            app:layout_constraintBottom_toTopOf="@id/user_email_login_activity"
+            app:layout_constraintTop_toBottomOf="@id/titulo_login_activity" />
 
         <EditText
-            android:id="@+id/user_email"
+            android:id="@+id/user_email_login_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -51,14 +50,14 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/senha_titulo"
+            app:layout_constraintBottom_toTopOf="@id/senha_titulo_login_activity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_titulo"
+            app:layout_constraintTop_toBottomOf="@id/email_titulo_login_activity"
             tools:text="email@gmail.com" />
 
         <TextView
-            android:id="@+id/senha_titulo"
+            android:id="@+id/senha_titulo_login_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -68,11 +67,11 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/password"
-            app:layout_constraintTop_toBottomOf="@id/user_email" />
+            app:layout_constraintBottom_toTopOf="@id/password_login_activity"
+            app:layout_constraintTop_toBottomOf="@id/user_email_login_activity" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/password_login_activity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -86,11 +85,11 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/senha_titulo"
+            app:layout_constraintTop_toBottomOf="@id/senha_titulo_login_activity"
             tools:text="senha123" />
 
         <TextView
-            android:id="@+id/link"
+            android:id="@+id/link_login_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -99,11 +98,11 @@
             android:textAlignment="center"
             android:textColor="@color/petroleum_blue"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_enter"
-            app:layout_constraintTop_toBottomOf="@id/password" />
+            app:layout_constraintBottom_toTopOf="@id/btn_enter_login_activity"
+            app:layout_constraintTop_toBottomOf="@id/password_login_activity" />
 
         <Button
-            android:id="@+id/btn_enter"
+            android:id="@+id/btn_enter_login_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
@@ -117,13 +116,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/link" />
+            app:layout_constraintTop_toBottomOf="@id/link_login_activity" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/logo_login_activity"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="50dp"

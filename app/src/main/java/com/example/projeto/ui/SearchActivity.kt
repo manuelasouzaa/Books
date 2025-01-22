@@ -28,7 +28,7 @@ class SearchActivity : UserActivity() {
         val email = intent.getStringExtra(userEmail).toString()
         val bookList: List<Book>? = intent.getSerializableExtra("booklist") as List<Book>?
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnReturnSearchActivity.setOnClickListener {
             goTo(MainActivity::class.java) {
                 loggedUser
             }
@@ -46,7 +46,7 @@ class SearchActivity : UserActivity() {
     }
 
     private fun recyclerViewConfig(email: String) {
-        val recycler = binding.recycler
+        val recycler = binding.recyclerSearchActivity
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
         adapter.whenItemIsClicked = { book ->

@@ -33,9 +33,9 @@ class FavoritesAdapter(
         fun bind(savedBook: SavedBook) {
             this@ViewHolder.book = savedBook
 
-            binding.title.text = savedBook.title
-            binding.image.loadImage(savedBook.image)
-            val author = binding.writer
+            binding.titleSearchItem.text = savedBook.title
+            binding.imageSearchItem.loadImage(savedBook.image)
+            val author = binding.writerSearchItem
             when {
                 savedBook.author == "null" ->
                     author.text = ""

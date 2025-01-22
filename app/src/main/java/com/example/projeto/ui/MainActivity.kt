@@ -39,15 +39,15 @@ class MainActivity : UserActivity() {
                 val email = user.value?.email.toString()
 
                 withContext(Main){
-                    binding.btnSearch.setOnClickListener {
+                    binding.btnSearchMainActivity.setOnClickListener {
                         search(email)
                     }
-                    binding.btnAccount.setOnClickListener {
+                    binding.btnAccountMainActivity.setOnClickListener {
                         goToActivity(AccountActivity::class.java, email)
                         finish()
                     }
 
-                    binding.btnBooklist.setOnClickListener {
+                    binding.btnBooklistMainActivity.setOnClickListener {
                         goToActivity(FavoritesActivity::class.java, email)
                     }
                 }
@@ -56,10 +56,10 @@ class MainActivity : UserActivity() {
     }
 
     private fun search(email: String) {
-        binding.loading.visibility = VISIBLE
-        binding.btnSearch.visibility = GONE
+        binding.loadingMainActivity.visibility = VISIBLE
+        binding.btnSearchMainActivity.visibility = GONE
 
-        val search = binding.editText.text.toString()
+        val search = binding.editTextMainActivity.text.toString()
 
         try {
             lifecycleScope.launch {
@@ -82,14 +82,14 @@ class MainActivity : UserActivity() {
         } catch (e: Exception) {
             errorInSearch()
         }
-        binding.editText.text.clear()
+        binding.editTextMainActivity.text.clear()
     }
 
     private fun errorInSearch() {
         lifecycleScope.launch(Main) {
             toast("Erro ao pesquisar")
-            binding.loading.visibility = GONE
-            binding.btnSearch.visibility = VISIBLE
+            binding.loadingMainActivity.visibility = GONE
+            binding.btnSearchMainActivity.visibility = VISIBLE
         }
     }
 

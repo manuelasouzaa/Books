@@ -19,18 +19,18 @@
         android:padding="15dp">
 
         <ImageView
-            android:id="@+id/imagem"
+            android:id="@+id/logo_delete_book_dialog"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:src="@drawable/logo"
-            app:layout_constraintBottom_toTopOf="@id/texto"
+            app:layout_constraintBottom_toTopOf="@id/texto_delete_book_dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/texto"
+            android:id="@+id/texto_delete_book_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
@@ -41,10 +41,10 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imagem" />
+            app:layout_constraintTop_toBottomOf="@id/logo_delete_book_dialog" />
 
         <Button
-            android:id="@+id/btn_yes"
+            android:id="@+id/btn_sim_delete_book_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -56,12 +56,12 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_no"
+            app:layout_constraintEnd_toStartOf="@id/btn_nao_delete_book_dialog"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/texto" />
+            app:layout_constraintTop_toBottomOf="@id/texto_delete_book_dialog" />
 
         <Button
-            android:id="@+id/btn_no"
+            android:id="@+id/btn_nao_delete_book_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -70,10 +70,10 @@
             android:text="Não"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/btn_yes"
+            app:layout_constraintBottom_toBottomOf="@id/btn_sim_delete_book_dialog"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_yes"
-            app:layout_constraintTop_toTopOf="@id/btn_yes" />
+            app:layout_constraintStart_toEndOf="@id/btn_sim_delete_book_dialog"
+            app:layout_constraintTop_toTopOf="@id/btn_sim_delete_book_dialog" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

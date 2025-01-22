@@ -37,7 +37,7 @@ class FavoritesActivity : UserActivity() {
         val emailUser = intent.getStringExtra(userEmail).toString()
         verifyList(emailUser)
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnReturnFavoritesActivity.setOnClickListener {
             finish()
         }
     }
@@ -51,7 +51,7 @@ class FavoritesActivity : UserActivity() {
     private fun verifyList(
         emailUser: String
     ) {
-        val recycler = binding.recycler
+        val recycler = binding.recyclerFavoritesActivity
 
         lifecycleScope.launch(IO) {
             val savedBooks = dao.showSavedBooks(emailUser)
@@ -64,13 +64,13 @@ class FavoritesActivity : UserActivity() {
                     val booksQuantity = adapter.itemCount
 
                     if (booksQuantity == 1)
-                        binding.bookQuantity.text = "1 livro adicionado"
+                        binding.bookQuantityFavoritesActivity.text = "1 livro adicionado"
                     if (booksQuantity > 1)
-                        binding.bookQuantity.text = "$booksQuantity livros adicionados"
+                        binding.bookQuantityFavoritesActivity.text = "$booksQuantity livros adicionados"
                 }
 
                 if (savedBooks.isNullOrEmpty()) {
-                    binding.bookQuantity.text = "Nenhum livro adicionado"
+                    binding.bookQuantityFavoritesActivity.text = "Nenhum livro adicionado"
                     recycler.visibility = GONE
                 }
             }

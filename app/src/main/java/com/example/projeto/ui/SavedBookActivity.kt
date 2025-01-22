@@ -37,32 +37,32 @@ class SavedBookActivity : UserActivity() {
 
         savedBookConfig(savedBook)
 
-        binding.btnReturn.setOnClickListener {
+        binding.btnReturnSavedBookActivity.setOnClickListener {
             goToBooklist(emailUser)
         }
 
-        binding.btnRemove.setOnClickListener {
+        binding.btnRemoveSavedBookActivity.setOnClickListener {
             showDialogBox(savedBook, emailUser)
         }
     }
 
     private fun savedBookConfig(savedBook: SavedBook) {
-        binding.bookTitle.text = savedBook.title
-        binding.bookImage.loadImage(savedBook.image)
+        binding.bookTitleSavedBookActivity.text = savedBook.title
+        binding.bookImageSavedBookActivity.loadImage(savedBook.image)
 
         if (savedBook.author.isNullOrEmpty())
-            binding.bookAuthor.text = ""
+            binding.bookAuthorSavedBookActivity.text = ""
         if (savedBook.author == "null")
-            binding.bookAuthor.text = ""
+            binding.bookAuthorSavedBookActivity.text = ""
         if (savedBook.author != "null")
-            binding.bookAuthor.text = savedBook.author
+            binding.bookAuthorSavedBookActivity.text = savedBook.author
 
         if (savedBook.description.isNullOrEmpty())
-            binding.bookDesc.text = ""
+            binding.bookDescSavedBookActivity.text = ""
         if (savedBook.description == "null")
-            binding.bookDesc.text = ""
+            binding.bookDescSavedBookActivity.text = ""
         if (savedBook.description != "null")
-            binding.bookDesc.text = savedBook.description
+            binding.bookDescSavedBookActivity.text = savedBook.description
     }
 
     private fun goToBooklist(emailUser: String?) {
@@ -81,8 +81,8 @@ class SavedBookActivity : UserActivity() {
         dialog.setContentView(bindingDialog.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnYes = bindingDialog.btnYes
-        val btnNo = bindingDialog.btnNo
+        val btnYes = bindingDialog.btnSimDeleteBookDialog
+        val btnNo = bindingDialog.btnNaoDeleteBookDialog
 
         btnNo.setOnClickListener {
             dialog.dismiss()

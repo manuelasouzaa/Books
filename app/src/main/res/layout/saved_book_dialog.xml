@@ -18,18 +18,18 @@
         android:padding="25dp">
 
         <ImageView
-            android:id="@+id/imagem"
+            android:id="@+id/imagem_saved_book_dialog"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="3dp"
             android:src="@drawable/logo"
-            app:layout_constraintBottom_toTopOf="@id/texto"
+            app:layout_constraintBottom_toTopOf="@id/texto_saved_book_dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/texto"
+            android:id="@+id/texto_saved_book_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -39,13 +39,13 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_booklist"
+            app:layout_constraintBottom_toTopOf="@id/btn_booklist_saved_book_dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imagem" />
+            app:layout_constraintTop_toBottomOf="@id/imagem_saved_book_dialog" />
 
         <Button
-            android:id="@+id/btn_booklist"
+            android:id="@+id/btn_booklist_saved_book_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -55,13 +55,13 @@
             android:text="@string/ir_para_booklist"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_return"
+            app:layout_constraintBottom_toTopOf="@id/btn_return_saved_book_dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/texto" />
+            app:layout_constraintTop_toBottomOf="@id/texto_saved_book_dialog" />
 
         <Button
-            android:id="@+id/btn_return"
+            android:id="@+id/btn_return_saved_book_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
@@ -70,13 +70,13 @@
             android:text="@string/voltar"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_close"
-            app:layout_constraintEnd_toEndOf="@id/btn_booklist"
-            app:layout_constraintStart_toStartOf="@id/btn_booklist"
-            app:layout_constraintTop_toBottomOf="@id/btn_booklist" />
+            app:layout_constraintBottom_toTopOf="@id/btn_close_saved_book_dialog"
+            app:layout_constraintEnd_toEndOf="@id/btn_booklist_saved_book_dialog"
+            app:layout_constraintStart_toStartOf="@id/btn_booklist_saved_book_dialog"
+            app:layout_constraintTop_toBottomOf="@id/btn_booklist_saved_book_dialog" />
 
         <TextView
-            android:id="@+id/btn_close"
+            android:id="@+id/btn_close_saved_book_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Fechar "
@@ -84,7 +84,7 @@
             android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="3dp"
-            app:layout_constraintTop_toBottomOf="@id/btn_return"
+            app:layout_constraintTop_toBottomOf="@id/btn_return_saved_book_dialog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/dark_blue" />
