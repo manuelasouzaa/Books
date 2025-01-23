@@ -45,7 +45,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.retrofit.v2110)
     implementation(libs.androidx.datastore.preferences)
 
@@ -56,6 +55,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
+    testImplementation (libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
