@@ -106,7 +106,6 @@ class UserTestsLowerAPI {
         onView(withText(pesquisa)).perform(
             click()
         )
-
         onView(withId(R.id.book_title_book_details_activity)).check(
             matches(withText(pesquisa))
         )

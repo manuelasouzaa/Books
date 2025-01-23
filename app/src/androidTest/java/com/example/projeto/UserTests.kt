@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers
@@ -44,6 +45,9 @@ class UserTests {
         searchABook()
         openBookDetails()
         addBookToBooklist()
+        openBookList()
+        viewSavedBook()
+        removeBookFromBooklist()
     }
 
     @Test
@@ -123,6 +127,38 @@ class UserTests {
         onView(withId(R.id.btn_close_saved_book_dialog)).check(
             matches(isDisplayed())
         )
+    }
+
+    @Test
+    fun openBookList() {
+        clickOnButton(R.id.btn_booklist_saved_book_dialog)
+
+        onView(withText(pesquisa)).check(
+            matches(isDisplayed())
+        )
+    }
+
+    @Test
+    fun viewSavedBook() {
+        onView(withText(pesquisa)).perform(
+            click()
+        )
+        onView(withId(R.id.book_title_saved_book_activity)).check(
+            matches(withText(pesquisa))
+        )
+    }
+
+    @Test
+    fun removeBookFromBooklist() {
+        clickOnButton(R.id.btn_remove_saved_book_activity)
+
+        onView(withId(R.id.btn_nao_delete_book_dialog)).check(
+            matches(isDisplayed())
+        )
+
+        clickOnButton(R.id.btn_sim_delete_book_dialog)
+
+        onView(withText(pesquisa)).check(doesNotExist())
     }
 
     private fun clickOnButton(button: Int) {
