@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.dataStore
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.loggedUser
-import com.example.projeto.contextExpresions.toast
 import com.example.projeto.database.LibraryDatabase
 import com.example.projeto.model.User
 import kotlinx.coroutines.Dispatchers.IO

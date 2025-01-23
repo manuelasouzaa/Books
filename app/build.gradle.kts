@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packaging {
+        resources.excludes += "**/*"
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -45,30 +49,29 @@ android {
 }
 
 dependencies {
-    implementation(libs.retrofit.v2110)
-    implementation(libs.androidx.datastore.preferences)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation (libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.retrofit.v2110)
     implementation(libs.retrofit2.converter.gson)
-
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.coil)
-
-    implementation (libs.androidx.core.splashscreen)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation (libs.kotlinx.coroutines.test)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation (libs.mockk.android)
 }

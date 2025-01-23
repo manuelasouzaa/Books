@@ -1,5 +1,7 @@
 package com.example.projeto
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.test.InstrumentationRegistry
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -16,14 +18,17 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager.widget.ViewPager.DecorView
+import com.example.projeto.model.User
 import com.example.projeto.ui.CadastroActivity
 import com.example.projeto.ui.MainActivity
 import com.google.android.material.internal.ContextUtils.getActivity
+import io.mockk.mockk
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.core.IsNot.not
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.manipulation.Ordering.Context
 
 class UserTests {
     @get:Rule
@@ -52,6 +57,9 @@ class UserTests {
 
     @Test
     fun accountActivityShowsUsernameAndEmail() {
+//        mockk<DataStore<Preferences>>()
+//        mockk<User>()
+
         clickOnButton(R.id.btn_account_main_activity)
 
         onView(withId(R.id.user_email_account_activity)).check(
