@@ -20,9 +20,6 @@ class MainActivityViewModel : ViewModel() {
         Retrofit().webService
     }
 
-    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
-    val state: StateFlow<State> = _state.asStateFlow()
-
     private val _message: MutableSharedFlow<String> = MutableSharedFlow(0)
     val message: SharedFlow<String> = _message.asSharedFlow()
 
@@ -31,7 +28,6 @@ class MainActivityViewModel : ViewModel() {
 
     fun searchBook(search: String) {
         viewModelScope.launch(IO) {
-            _state.emit(State.Loading)
             val list = service.searchBooks(search)
             fetchBook(list)
         }
@@ -87,20 +83,12 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private suspend fun sendList(booklist: List<Book?>) {
-        _state.emit(State.Loaded)
         _booklist.emit(booklist)
         _message.emit("Livros encontrados")
     }
 
     private suspend fun errorInSearch() {
-        _state.emit(State.Error)
         _message.emit("Livro não encontrado")
         return
-    }
-
-    sealed class State {
-        object Error : State()
-        object Loaded : State()
-        object Loading : State()
     }
 }

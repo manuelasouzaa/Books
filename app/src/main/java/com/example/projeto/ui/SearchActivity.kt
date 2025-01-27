@@ -1,22 +1,24 @@
 package com.example.projeto.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.idBook
-import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.contextExpresions.toast
-import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.SearchActivityBinding
 import com.example.projeto.model.Book
 import com.example.projeto.ui.adapter.SearchAdapter
+import com.example.projeto.viewModel.MainViewModel
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class SearchActivity : UserActivity() {
 
     private val binding by lazy {
         SearchActivityBinding.inflate(layoutInflater)
     }
-
     private val adapter by lazy {
         SearchAdapter(this)
     }
@@ -25,13 +27,12 @@ class SearchActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val email = intent.getStringExtra(userEmail).toString()
+        verifyLoggedUser(this)
+
         val bookList: List<Book>? = intent.getSerializableExtra("booklist") as List<Book>?
 
         binding.btnReturnSearchActivity.setOnClickListener {
-            goTo(MainActivity::class.java) {
-                loggedUser
-            }
+            goTo(MainActivity::class.java)
         }
 
         when {
@@ -39,21 +40,19 @@ class SearchActivity : UserActivity() {
                 toast("Livro não encontrado")
 
             bookList.isNotEmpty() -> {
-                recyclerViewConfig(email.toString())
+                recyclerViewConfig()
                 adapter.update(bookList)
             }
         }
     }
 
-    private fun recyclerViewConfig(email: String) {
+    private fun recyclerViewConfig() {
         val recycler = binding.recyclerSearchActivity
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
         adapter.whenItemIsClicked = { book ->
             goTo(BookDetailsActivity::class.java) {
-                putExtra(userEmail, email)
                 putExtra(idBook, book)
-                loggedUser
             }
         }
     }

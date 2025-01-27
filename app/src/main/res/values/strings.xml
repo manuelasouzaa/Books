@@ -23,4 +23,6 @@
     <string name="login">Login</string>
     <string name="livro_adicionado_com_sucesso">Livro adicionado com sucesso!</string>
     <string name="ir_para_booklist">Ir para BookList</string>
+    <string name="user_not_found">Usuário não encontrado. Faça o cadastro</string>
+    <string name="logged_in">Login efetuado</string>
 </resources>

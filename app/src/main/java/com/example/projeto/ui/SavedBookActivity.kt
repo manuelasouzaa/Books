@@ -5,16 +5,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.projeto.contextExpresions.idBook
 import com.example.projeto.contextExpresions.goTo
+import com.example.projeto.contextExpresions.idBook
 import com.example.projeto.contextExpresions.loadImage
-import com.example.projeto.contextExpresions.userEmail
-import com.example.projeto.contextExpresions.loggedUser
 import com.example.projeto.database.LibraryDatabase
+import com.example.projeto.database.Repository
 import com.example.projeto.databinding.DeleteBookDialogBinding
 import com.example.projeto.databinding.SavedBookActivityBinding
 import com.example.projeto.model.SavedBook
+import com.example.projeto.viewModel.MainViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
@@ -24,25 +25,21 @@ class SavedBookActivity : UserActivity() {
         SavedBookActivityBinding.inflate(layoutInflater)
     }
 
-    private val dao by lazy {
-        LibraryDatabase.instance(this).savedBookDao()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val savedBook = intent.getParcelableExtra<SavedBook>(idBook) as SavedBook
-        val emailUser = intent.getStringExtra(userEmail)
+
+        verifyLoggedUser(this)
 
         savedBookConfig(savedBook)
 
         binding.btnReturnSavedBookActivity.setOnClickListener {
-            goToBooklist(emailUser)
+            goToBooklist()
         }
-
         binding.btnRemoveSavedBookActivity.setOnClickListener {
-            showDialogBox(savedBook, emailUser)
+            showDialogBox(savedBook)
         }
     }
 
@@ -65,44 +62,39 @@ class SavedBookActivity : UserActivity() {
             binding.bookDescSavedBookActivity.text = savedBook.description
     }
 
-    private fun goToBooklist(emailUser: String?) {
-        goTo(FavoritesActivity::class.java) {
-            putExtra(userEmail, emailUser)
-            loggedUser
-        }
+    private fun goToBooklist() {
+        goTo(FavoritesActivity::class.java)
         finish()
     }
 
-    private fun showDialogBox(savedBook: SavedBook, emailUser: String?) {
+    private fun showDialogBox(savedBook: SavedBook) {
         val dialog = Dialog(this)
         val bindingDialog = DeleteBookDialogBinding.inflate(layoutInflater)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(bindingDialog.root)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnYes = bindingDialog.btnSimDeleteBookDialog
-        val btnNo = bindingDialog.btnNaoDeleteBookDialog
+        dialogConfig(dialog, bindingDialog)
 
-        btnNo.setOnClickListener {
+        bindingDialog.btnNaoDeleteBookDialog.setOnClickListener {
             dialog.dismiss()
         }
-
-        btnYes.setOnClickListener {
+        bindingDialog.btnSimDeleteBookDialog.setOnClickListener {
             dialog.dismiss()
-            removeBook(savedBook, emailUser)
+            removeBook(savedBook)
         }
         dialog.show()
     }
 
-    private fun removeBook(
-        savedBook: SavedBook,
-        emailUser: String?
-    ) {
+    private fun dialogConfig(dialog: Dialog, bindingDialog: DeleteBookDialogBinding) {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    private fun removeBook(savedBook: SavedBook) {
         lifecycleScope.launch(IO) {
-            dao.removeSavedBook(savedBook)
-            finish()
-            goToBooklist(emailUser)
+            Repository(this@SavedBookActivity).removeBookFromBooklist(savedBook)
         }
+        finish()
+        goToBooklist()
     }
 }

@@ -9,8 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/titulo_cadastro_activity"
@@ -22,98 +23,112 @@
             android:textAlignment="center"
             android:textColor="@color/petroleum_blue"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@id/constraint_cadastro_activity" />
 
-        <TextView
-            android:id="@+id/username_title_cadastro_activity"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_cadastro_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/alata"
-            android:text="@string/nome_de_usuario"
-            android:textAlignment="center"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/username_cadastro_activity" />
+            app:layout_constraintBottom_toTopOf="@id/btn_enter_cadastro_activity"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.467"
+            tools:layout_editor_absoluteX="-75dp">
 
-        <EditText
-            android:id="@+id/username_cadastro_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="30dp"
-            android:background="@color/white"
-            android:fontFamily="@font/alata"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/email_titulo_cadastro_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:text="@string/e_mail"
+                android:textAlignment="center"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/user_email_cadastro_activity"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/email_titulo_cadastro_activity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            <EditText
+                android:id="@+id/user_email_cadastro_activity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/white"
+                android:fontFamily="@font/alata"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_titulo_cadastro_activity" />
 
-            android:fontFamily="@font/alata"
-            android:text="@string/e_mail"
-            android:textAlignment="center"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/user_email_cadastro_activity"
-            app:layout_constraintTop_toBottomOf="@id/username_cadastro_activity" />
+            <TextView
+                android:id="@+id/username_title_cadastro_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/alata"
+                android:text="@string/nome_de_usuario"
+                android:textAlignment="center"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/username_cadastro_activity"
+                app:layout_constraintTop_toBottomOf="@id/user_email_cadastro_activity"
 
-        <EditText
-            android:id="@+id/user_email_cadastro_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@color/white"
-            android:fontFamily="@font/alata"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/senha_titulo_cadastro_activity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_titulo_cadastro_activity" />
+                />
 
-        <TextView
-            android:id="@+id/senha_titulo_cadastro_activity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/alata"
-            android:text="@string/senha"
-            android:textAlignment="center"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/password_cadastro_activity"
-            app:layout_constraintTop_toBottomOf="@id/user_email_cadastro_activity" />
+            <EditText
+                android:id="@+id/username_cadastro_activity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/white"
+                android:fontFamily="@font/alata"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/username_title_cadastro_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/senha_titulo_cadastro_activity"
 
-        <EditText
-            android:id="@+id/password_cadastro_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@color/white"
-            android:fontFamily="@font/alata"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/senha_titulo_cadastro_activity" />
+                />
+
+            <TextView
+                android:id="@+id/senha_titulo_cadastro_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/alata"
+                android:text="@string/senha"
+                android:textAlignment="center"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/password_cadastro_activity"
+                app:layout_constraintTop_toBottomOf="@id/username_cadastro_activity" />
+
+            <EditText
+                android:id="@+id/password_cadastro_activity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/white"
+                android:fontFamily="@font/alata"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/senha_titulo_cadastro_activity" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/link_cadastro_activity"
@@ -127,7 +142,7 @@
             android:textColor="@color/dark_blue"
             android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@id/btn_enter_cadastro_activity"
-            app:layout_constraintTop_toBottomOf="@id/password_cadastro_activity" />
+            app:layout_constraintTop_toBottomOf="@id/constraint_cadastro_activity" />
 
         <Button
             android:id="@+id/btn_enter_cadastro_activity"
@@ -143,9 +158,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_cadastro_activity" />
+            app:layout_constraintTop_toBottomOf="@id/link_cadastro_activity"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ImageView
         android:id="@+id/logo_cadastro_activity"
         android:layout_width="80dp"

@@ -3,7 +3,6 @@ package com.example.projeto
 import android.content.Context
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
@@ -14,104 +13,52 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.projeto.contextExpresions.UserPreferences
+import com.example.projeto.database.Repository
 import com.example.projeto.model.User
 import com.example.projeto.ui.MainActivity
 import io.mockk.mockk
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
-class UserTestsLowerAPI {
+class SeparatedTests {
+
     @get:Rule
     val rule = ActivityScenarioRule(MainActivity::class.java)
 
     private val username = "manuela"
     private val email = "manuela@gmail.com"
-    private val senha = "senha123"
+    private val password = "senha123"
     private val pesquisa = "Box Peter Pan"
 
-    @Test
-    fun testingAllTests() {
-        signUpWithoutWritingPassword()
-
-        onView(withId(R.id.username_cadastro_activity)).perform(clearText())
-        onView(withId(R.id.user_email_cadastro_activity)).perform(clearText())
-
-        signUpWithAllNeededData()
-        loginUser()
-//        accountActivityShowsUsernameAndEmail()
-        searchABook()
-        addBookToBooklist()
-        goToBooklistThroughDialog()
-        removeSavedBook()
-    }
 
     @Test
-    fun signUpWithoutWritingPassword() {
-        clickOnButton(R.id.link_login_activity)
-
-        fillBlanks(R.id.username_cadastro_activity, username)
-        fillBlanks(R.id.user_email_cadastro_activity, email)
-
-        clickOnButton(R.id.btn_enter_cadastro_activity)
-
-        onView(withText("Preencha todos os campos"))
-            .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun signUpWithAllNeededData() {
-//        clickOnButton(R.id.link_login_activity)
-        fillBlanks(R.id.username_cadastro_activity, username)
-        fillBlanks(R.id.user_email_cadastro_activity, email)
-        fillBlanks(R.id.password_cadastro_activity, senha)
-
-        clickOnButton(R.id.btn_enter_cadastro_activity)
-
-        onView(withText("Cadastro realizado com sucesso!"))
-            .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun loginUser() {
-        fillBlanks(R.id.user_email_login_activity, email)
-        fillBlanks(R.id.password_login_activity, senha)
-        clickOnButton(R.id.btn_enter_login_activity)
-
-        onView(withText("Login efetuado"))
-            .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun accountActivityShowsUsernameAndEmail() {
+    fun accountActivityShowsUsernameAndEmail() = runTest {
         mockkUserPreferences()
-        val usuario = User(
-            email,
-            senha,
-            username
-        )
 
-        val _user: MutableStateFlow<User?> = MutableStateFlow(null)
-        _user.value = usuario
-        val user: StateFlow<User?> = _user
+        val repository = mockk<Repository>()
+//        val user = flowOf(User(email, password, username))
+        val user = mockk<StateFlow<User>>()
 
         ActivityScenario.launch(MainActivity::class.java)
             .onActivity {
                 it.user = user
             }
 
+        val usuario = user.first()
+        val email = usuario.email
+        val username = usuario.name
+
         clickOnButton(R.id.btn_account_main_activity)
 
         onView(withId(R.id.user_email_account_activity)).check(
-            matches(withText(user.value?.email))
+            matches(withText(email))
         )
         onView(withId(R.id.username_account_activity)).check(
-            matches(withText(user.value?.name))
+            matches(withText(username))
         )
 
         clickOnButton(R.id.btn_return_account_activity)

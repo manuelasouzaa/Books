@@ -1,7 +1,11 @@
 package com.example.projeto
 
+import android.app.Application
+import androidx.activity.viewModels
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.test.InstrumentationRegistry
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -18,26 +22,32 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.viewpager.widget.ViewPager.DecorView
+import com.example.projeto.contextExpresions.UserPreferences
 import com.example.projeto.model.User
+import com.example.projeto.ui.AccountActivity
 import com.example.projeto.ui.CadastroActivity
 import com.example.projeto.ui.MainActivity
+import com.example.projeto.viewModel.MainViewModel
 import com.google.android.material.internal.ContextUtils.getActivity
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.core.IsNot.not
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.manipulation.Ordering.Context
 
 class UserTests {
     @get:Rule
-    val rule = ActivityScenarioRule(MainActivity::class.java)
+    val rule = ActivityScenarioRule(AccountActivity::class.java)
 
-    private val username = "manuela"
-    private val email = "manuela@gmail.com"
-    private val senha = "senha123"
-    private val pesquisa = "Box Peter Pan"
+    private val username: String = "manuela"
+    private val email: String = "manuela@gmail.com"
+    private val senha: String = "senha123"
+    private val pesquisa: String = "Box Peter Pan"
 
     @Test
     fun happyEndingJourney() {
@@ -57,9 +67,6 @@ class UserTests {
 
     @Test
     fun accountActivityShowsUsernameAndEmail() {
-//        mockk<DataStore<Preferences>>()
-//        mockk<User>()
-
         clickOnButton(R.id.btn_account_main_activity)
 
         onView(withId(R.id.user_email_account_activity)).check(

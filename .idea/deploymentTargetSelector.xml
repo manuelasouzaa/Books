@@ -13,19 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="happyEndingJourney()">
+      <SelectionState runConfigName="signUpWithAllNeededData()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="accountActivityShowsUsernameAndEmail()">
+      <SelectionState runConfigName="loginUserThatDoesNotExist()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="signUpWithAllNeededData() (1)">
+      <SelectionState runConfigName="loginUserWithoutEmail()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testingAllTests()">
+      <SelectionState runConfigName="loginUserWithoutPassword()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="searchABookThatDoesNotExist()">
+      <SelectionState runConfigName="shouldToastMessageWhenTryingToSignInAUserThatDoesNotExist()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

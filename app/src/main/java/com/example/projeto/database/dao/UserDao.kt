@@ -14,8 +14,8 @@ interface UserDao {
     fun save(user: User)
 
     @Query ("SELECT * FROM User WHERE email = :email AND password = :senha")
-    fun searchUsers(email: String, senha: String): User?
+    fun searchUser(email: String, senha: String): User?
 
     @Query ("SELECT * FROM User WHERE email = :email")
-    fun fetchUserByEmail(email: String): Flow<User>
+    fun fetchUserByEmail(email: String): Flow<User>?
 }

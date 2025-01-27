@@ -3,12 +3,11 @@ package com.example.projeto.ui
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.goTo
-import com.example.projeto.contextExpresions.loggedUser
-import com.example.projeto.contextExpresions.userEmail
 import com.example.projeto.databinding.AccountActivityBinding
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AccountActivity : UserActivity() {
 
@@ -20,39 +19,33 @@ class AccountActivity : UserActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
-            user.filterNotNull().collect {
-                val email = it.email
-                val username = it.name
-                binding.usernameAccountActivity.text = username
-                binding.userEmailAccountActivity.text = email
-            }
+        verifyLoggedUser(this@AccountActivity)
+
+        lifecycleScope.launch(IO) {
+            replaceTexts()
         }
 
         binding.btnLogout.setOnClickListener {
-            lifecycleScope.launch(IO) {
-                removeUser()
-                goToLogin()
-            }
+            viewModel.removeUser(this)
+            goToLogin()
         }
 
         binding.btnReturnAccountActivity.setOnClickListener {
-            goTo(MainActivity::class.java) {
-                loggedUser
-            }
+            goTo(MainActivity::class.java)
             finish()
         }
 
         binding.btnBooklistAccountActivity.setOnClickListener {
-            lifecycleScope.launch {
-                user.filterNotNull().collect {
-                    val email = it.email.toString()
-                    goTo(FavoritesActivity::class.java) {
-                        putExtra(userEmail, email)
-                        loggedUser
-                    }
-                }
+            goTo(FavoritesActivity::class.java)
+        }
+    }
 
+    private suspend fun replaceTexts() {
+        val user = viewModel.getLoggedUser(this)
+        user?.collect {
+            withContext(Main) {
+                binding.userEmailAccountActivity.text = it.email
+                binding.usernameAccountActivity.text = it.name
             }
         }
     }

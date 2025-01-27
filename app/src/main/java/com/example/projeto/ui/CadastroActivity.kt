@@ -6,11 +6,15 @@ import androidx.lifecycle.lifecycleScope
 import com.example.projeto.contextExpresions.goTo
 import com.example.projeto.contextExpresions.toast
 import com.example.projeto.database.LibraryDatabase
+import com.example.projeto.database.Repository
 import com.example.projeto.databinding.CadastroActivityBinding
 import com.example.projeto.model.User
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CadastroActivity : AppCompatActivity() {
 
@@ -18,23 +22,14 @@ class CadastroActivity : AppCompatActivity() {
         CadastroActivityBinding.inflate(layoutInflater)
     }
 
-    private val dao by lazy {
-        LibraryDatabase.instance(this).userDao()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val btn = binding.btnEnterCadastroActivity
+        val btnEnter = binding.btnEnterCadastroActivity
 
-        btn.setOnClickListener {
-            val name = binding.usernameCadastroActivity.text.toString()
-            val email = binding.userEmailCadastroActivity.text.toString()
-            val password = binding.passwordCadastroActivity.text.toString()
-            lifecycleScope.launch(IO) {
-                verifyData(email, name, password)
-            }
+        btnEnter.setOnClickListener {
+            signUpNewUser()
         }
 
         binding.linkCadastroActivity.setOnClickListener {
@@ -43,17 +38,32 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    private fun verifyData(email: String, name: String, password: String) {
+    private fun signUpNewUser() {
+        val name = binding.usernameCadastroActivity.text.toString()
+        val email = binding.userEmailCadastroActivity.text.toString()
+        val password = binding.passwordCadastroActivity.text.toString()
+
+        lifecycleScope.launch(IO) {
+            verifyData(email, name, password)
+        }
+    }
+
+    private suspend fun verifyData(email: String, name: String, password: String) {
         when {
             email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty() -> {
-                createUser(email, name, password)
+                val user = Repository(this).fetchUserByEmail(email)?.firstOrNull()
+                if (user == null)
+                    createUser(email, name, password)
+                if (user !== null)
+                    withContext(Main) {
+                        toast("E-mail já cadastrado")
+                    }
             }
 
-            email == "" || password == "" || name == "" -> {
+            email == "" || password == "" || name == "" ->
                 lifecycleScope.launch(Main) {
                     toast("Preencha todos os campos")
                 }
-            }
         }
     }
 
@@ -64,13 +74,11 @@ class CadastroActivity : AppCompatActivity() {
             password = password
         )
 
-        dao.save(newUser)
+        Repository(this@CadastroActivity).saveNewUser(newUser)
 
         lifecycleScope.launch(Main) {
             toast("Cadastro realizado com sucesso!")
-            goTo(LoginActivity::class.java) {
-                newUser
-            }
+            goTo(LoginActivity::class.java)
             finish()
         }
         return newUser
