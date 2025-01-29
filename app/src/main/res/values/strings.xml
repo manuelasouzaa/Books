@@ -25,4 +25,8 @@
     <string name="ir_para_booklist">Ir para BookList</string>
     <string name="user_not_found">Usuário não encontrado. Faça o cadastro</string>
     <string name="logged_in">Login efetuado</string>
+    <string name="email_cadastrado">E-mail já cadastrado</string>
+    <string name="preencha_todos_os_campos">Preencha todos os campos</string>
+    <string name="senha_incorreta">Senha incorreta</string>
+    <string name="cadastro_realizado_com_sucesso">Cadastro realizado com sucesso!</string>
 </resources>

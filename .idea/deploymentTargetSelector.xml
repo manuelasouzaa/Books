@@ -13,19 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="signUpWithAllNeededData()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="loginUserThatDoesNotExist()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="loginUserWithoutEmail()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="loginUserWithoutPassword()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="shouldToastMessageWhenTryingToSignInAUserThatDoesNotExist()">
+      <SelectionState runConfigName="viewSearchedBook()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

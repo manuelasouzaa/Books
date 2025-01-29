@@ -18,7 +18,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.user.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,19 +26,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.lists.SearchActivity" />
 
-        <activity android:name=".ui.BookDetailsActivity" />
+        <activity android:name=".ui.books.BookDetailsActivity" />
 
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.user.LoginActivity" />
 
-        <activity android:name=".ui.CadastroActivity" />
+        <activity android:name=".ui.user.CadastroActivity" />
 
-        <activity android:name=".ui.FavoritesActivity" />
+        <activity android:name=".ui.lists.FavoritesActivity" />
 
-        <activity android:name=".ui.AccountActivity" />
+        <activity android:name=".ui.user.AccountActivity" />
 
-        <activity android:name=".ui.SavedBookActivity" />
+        <activity android:name=".ui.books.SavedBookActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

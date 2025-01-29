@@ -6,11 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.projeto.database.dao.SavedBookDao
 import com.example.projeto.database.dao.UserDao
-import com.example.projeto.migrations.Migration_1_2
-import com.example.projeto.migrations.Migration_2_3
-import com.example.projeto.migrations.Migration_3_4
-import com.example.projeto.migrations.Migration_4_5
-import com.example.projeto.migrations.Migration_5_6
 import com.example.projeto.model.SavedBook
 import com.example.projeto.model.User
 
